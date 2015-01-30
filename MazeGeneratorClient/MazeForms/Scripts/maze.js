@@ -313,11 +313,36 @@ function keyMove(ev)
     
 }
 
+
+function captureGesture(ev) {
+    switch (ev.type) {
+        case "swipeleft":
+            move.left();            
+            return true;
+
+        case "swipeup":
+            move.up();
+            return false;
+        case "swiperight":
+            move.right();
+            return false;
+        case "swipedown":
+            move.down();
+            return false;
+        default:
+            return true;
+    }
+}
+
+
 $(document).ready(function () {
 
     commonFunctions.buildGameTable();
    
-    
+    var gestures = new Hammer(gid("maze"));    
+    gestures.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
+    gestures.on("swipeleft swiperight swipeup swipedown tap press", captureGesture);
+
     clock = $('.clockCountDown').FlipClock(120, {
         countdown: true,
         clockFace: 'MinuteCounter',
