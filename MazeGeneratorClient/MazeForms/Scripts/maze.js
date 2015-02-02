@@ -315,6 +315,9 @@ function keyMove(ev)
 
 
 function captureGesture(ev) {
+
+    ev.preventDefault();
+    
     switch (ev.type) {
         case "swipeleft":
             move.left();            
@@ -340,7 +343,7 @@ $(document).ready(function () {
     commonFunctions.buildGameTable();
    
     var gestures = new Hammer(gid("maze"));    
-    gestures.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
+    gestures.get('swipe').set({ direction: Hammer.DIRECTION_ALL,threshold:2,velocity:0.3 });
     gestures.on("swipeleft swiperight swipeup swipedown tap press", captureGesture);
 
     clock = $('.clockCountDown').FlipClock(120, {
