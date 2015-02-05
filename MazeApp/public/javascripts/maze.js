@@ -278,15 +278,35 @@ function keyMove(ev)
         case 37: /* left */
 
             move.left();
+            socket.emit('game update',{
+                username: socket.id,
+                points: 1, //TODO
+                mazeHtml: gid('maze').outerHTML
+            });
             return false;
         case 38: /* up */
             move.up();
+            socket.emit('game update',{
+                username: socket.id,
+                points: 1, //TODO
+                mazeHtml: gid('maze').outerHTML
+            });
             return false;
         case 39: /* right */
             move.right();
+            socket.emit('game update',{
+                username: socket.id,
+                points: 1, //TODO
+                mazeHtml: gid('maze').outerHTML
+            });
             return false;
         case 40: /* down */
             move.down();
+            socket.emit('game update',{
+                username: socket.id,
+                points: 1, //TODO
+                mazeHtml: gid('maze').outerHTML
+            });
             return false;
         default:
          //   log("interaction", "Key press: %d", ev.keyCode);

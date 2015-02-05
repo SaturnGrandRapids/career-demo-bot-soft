@@ -179,12 +179,6 @@
 
             }
 
-          
-            
-
-
-
-
         #maze
         {
               -webkit-transition: all 4s   ease-out ;
@@ -194,9 +188,6 @@
               
         }
 
-            
-
-        
         table {
             border-collapse: collapse;
             width: 40%;
@@ -270,6 +261,10 @@
     <script src="/javascripts/jquery.mobile-1.2.0.js"></script>
     <script src="/javascripts/flipclock.min.js"></script>
     <script src="/javascripts/maze.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+    </script>
     <title>Maze maker</title>
 </head>
 <body>
@@ -281,11 +276,6 @@
         </div>
         <div data-role="content">
 
-
-            
-
-
-
             <form>
                 <fieldset style="display:none;">
                     <label>rows </label><input id='rows' size="3" />
@@ -294,8 +284,10 @@
                     <a id='solve' style='display:none' href='javascript:solve(); void(0)'>Solve</a>
                 </fieldset>
             </form>
-            <div>
+            <div >
+                <div id="mazeContainer">
                 <table id='maze' />
+                </div>
                 <div style="float:right; width:50%" >
                     <div class="flip-clock-meridium" style="margin-left:10px; padding-bottom:10px;"><br />Time Left:</div>
                     <div class="clockCountDown"></div>
