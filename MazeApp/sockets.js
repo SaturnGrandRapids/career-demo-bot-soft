@@ -21,11 +21,11 @@ var sockets = function(server){
 
         socket.on('movement', function(msg){
             socket.broadcast.emit(msg);
-        })
+        });
 
-        socket.on('game over'), function(msg){
+        socket.on('game over', function(msg){
             socket.broadcast.emit(msg);
-        }
+        });
     });
 }
 
