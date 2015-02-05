@@ -6,25 +6,27 @@ var sockets = function(server){
     var io = require('socket.io')(server);
 
     io.on('connection', function(socket){
-        console.log('a user connected');
+        console.log('a user with socket ' + socket.id + ' connected');
 
         socket.on('disconnect', function(){
-            console.log('user disconnected');
+            console.log('user with socket ' + socket.id + ' disconnected');
         });
 
         /**
-         * Emit points updates
+         * Emit game event updates
          */
-        socket.on('points update', function(msg){
-            socket.broadcast.emit(msg);
+        socket.on('game update', function(msg){
+            //broadcast to everyone including (for now) the sender
+            console.log('user with socket ' + socket.id + ' posted game update');
+            io.emit('game update', msg);
         });
 
-        socket.on('movement', function(msg){
-            socket.broadcast.emit(msg);
-        });
-
+        /**
+         * Emit game over update
+         */
         socket.on('game over', function(msg){
-            socket.broadcast.emit(msg);
+            //broadcast to everyone but the sender
+            socket.broadcast.emit('game over', msg);
         });
     });
 }

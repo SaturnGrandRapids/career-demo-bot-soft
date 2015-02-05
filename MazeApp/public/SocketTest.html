@@ -4,11 +4,48 @@
     <meta charset="UTF-8">
     <title></title>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="/javascripts/jquery-1.8.2.js"></script>
     <script>
+
+        var scoreboardData = [];
         var socket = io();
+
+        var i = 0;
+        setInterval(function(){
+            socket.emit('game update',{
+                username: socket.id,
+                points: (i++)*13,
+                mazeHtml: ''
+            })
+        }, 1000);
+
+        socket.on('game update',function(msg){
+            var isUpdate = false;
+            $(scoreboardData).each(function(){
+                if(this.username === msg.username){
+                    this.points = msg.points;
+                    this.mazeHtml = msg.mazeHtml;
+                    isUpdate = true;
+                }
+            });
+            if(!isUpdate){
+                scoreboardData.push(msg);
+            }
+            rebuildScoreboard();
+        });
+
+        function rebuildScoreboard(){
+            $('.scoreboard').empty();
+            $(scoreboardData).each(function(){
+               $('.scoreboard').append('<li>' + this.username + ': ' + this.points + '</li>');
+            });
+        }
     </script>
 </head>
 <body>
+<h1>Scoreboard</h1>
+<ul class='scoreboard'>
 
+</ul>
 </body>
 </html>
