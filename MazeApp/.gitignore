@@ -33,6 +33,8 @@ node_modules
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/dictionaries
+.idea/misc.xml
+.idea/modules.xml
 
 # Sensitive or high-churn files:
 .idea/dataSources.ids

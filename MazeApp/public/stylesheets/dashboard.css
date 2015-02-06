@@ -1,0 +1,58 @@
+#maze
+{
+    -webkit-transition: all 4s   ease-out ;
+    -moz-transition: all 4s   ease-out ;
+    -o-transition: all 4s   ease-out ;
+    transition: all 4s   ease-out ;
+}
+
+table {
+    border-collapse: collapse;
+    width: 15%;
+    height: 200px;
+    white-space: nowrap;
+    table-layout: fixed;
+    background-color:  black;
+}
+
+tr {
+    height: 5px;
+}
+
+td {
+    width: 10px;
+    height: 5px;
+    border: 2px solid white;
+}
+
+td.s {
+    border-bottom: none;
+}
+
+td.n {
+    border-top: none;
+}
+
+td.w {
+    border-left: none;
+}
+
+td.e {
+    border-right: none;
+}
+
+td.v {
+    background: skyblue;
+}
+
+td.cur {
+    background: red;
+}
+
+.cur1 {
+    background-color: coral;
+}
+
+.finish {
+    background: darkcyan;
+}

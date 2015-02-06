@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		@html.block('headerStyle')
+		<title>@model.title</title>
+		@html.block('headerScript')
+	</head>
+	<body>
+		@html.block('content')
+	</body>
+</html>
