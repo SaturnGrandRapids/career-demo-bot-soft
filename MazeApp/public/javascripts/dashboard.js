@@ -7,6 +7,7 @@ socket.on('game update',function(msg){
         if(this.username === msg.username){
             this.points = msg.points;
             this.mazeHtml = msg.mazeHtml;
+            this.playerName = msg.playerName
             isUpdate = true;
         }
     });
@@ -19,6 +20,6 @@ socket.on('game update',function(msg){
 function rebuildScoreboard(){
     $('.dashboard').empty();
     $(scoreboardData).each(function(){
-        $('.dashboard').append('<div>' + this.mazeHtml + '</div>');
+        $('.dashboard').append('<div>' + this.mazeHtml + this.username + this.playerName + '</div>');
     });
 }

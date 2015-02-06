@@ -281,7 +281,8 @@ function keyMove(ev)
             socket.emit('game update',{
                 username: socket.id,
                 points: 1, //TODO
-                mazeHtml: gid('maze').outerHTML
+                mazeHtml: gid('maze').outerHTML,
+                playerName: gid('playerInfo').outerHTML
             });
             return false;
         case 38: /* up */
@@ -289,7 +290,8 @@ function keyMove(ev)
             socket.emit('game update',{
                 username: socket.id,
                 points: 1, //TODO
-                mazeHtml: gid('maze').outerHTML
+                mazeHtml: gid('maze').outerHTML,
+                playerName: gid('playerInfo').outerHTML
             });
             return false;
         case 39: /* right */
@@ -297,7 +299,8 @@ function keyMove(ev)
             socket.emit('game update',{
                 username: socket.id,
                 points: 1, //TODO
-                mazeHtml: gid('maze').outerHTML
+                mazeHtml: gid('maze').outerHTML,
+                playerName: gid('playerInfo').outerHTML
             });
             return false;
         case 40: /* down */
@@ -305,7 +308,8 @@ function keyMove(ev)
             socket.emit('game update',{
                 username: socket.id,
                 points: 1, //TODO
-                mazeHtml: gid('maze').outerHTML
+                mazeHtml: gid('maze').outerHTML,
+                playerName: gid('playerInfo').outerHTML
             });
             return false;
         default:
