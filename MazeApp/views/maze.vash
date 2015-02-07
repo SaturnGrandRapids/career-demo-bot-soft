@@ -31,7 +31,8 @@
                 <h1></h1>
                 <a data-icon="gear" href="/Account/Login">Log in</a>
                 <div style="width:30%" id="playerInfo">
-                <input type="text" id="playerInfoBox" name="playerName" class="playerNameClass" maxlength="20" value="Enter Your Name Here" >
+                    <input type="text" id="playerInfoBox" name="playerName" class="playerNameClass"
+                        maxlength="20" value="Enter Your Name Here">
                 </div>
 
             </div>

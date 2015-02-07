@@ -282,7 +282,7 @@ function keyMove(ev)
                 username: socket.id,
                 points: 1, //TODO
                 mazeHtml: gid('maze').outerHTML,
-                playerName: gid('playerInfo').outerHTML
+                playerName: gid('playerInfoBox').value
             });
             return false;
         case 38: /* up */
@@ -291,7 +291,7 @@ function keyMove(ev)
                 username: socket.id,
                 points: 1, //TODO
                 mazeHtml: gid('maze').outerHTML,
-                playerName: gid('playerInfo').outerHTML
+                playerName: gid('playerInfoBox').value
             });
             return false;
         case 39: /* right */
@@ -300,7 +300,7 @@ function keyMove(ev)
                 username: socket.id,
                 points: 1, //TODO
                 mazeHtml: gid('maze').outerHTML,
-                playerName: gid('playerInfo').outerHTML
+                playerName: gid('playerInfoBox').value
             });
             return false;
         case 40: /* down */
@@ -309,7 +309,7 @@ function keyMove(ev)
                 username: socket.id,
                 points: 1, //TODO
                 mazeHtml: gid('maze').outerHTML,
-                playerName: gid('playerInfo').outerHTML
+                playerName: gid('playerInfoBox').value
             });
             return false;
         default:
@@ -341,7 +341,6 @@ function captureGesture(ev) {
             return true;
     }
 }
-
 
 $(document).ready(function () {
 
