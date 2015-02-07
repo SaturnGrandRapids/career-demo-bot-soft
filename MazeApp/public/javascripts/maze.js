@@ -43,6 +43,12 @@ var commonFunctions = {
         else {
             tbl.classList.add('flipped');
         }
+        socket.emit('game over',{
+            username: socket.id,
+            points: gamePoints, //TODO
+            mazeHtml: gid('maze').outerHTML,
+            playerName: gid('playerInfoBox').value
+        });
     },
     buildGameTable: function()
     {

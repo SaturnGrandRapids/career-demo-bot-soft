@@ -1,7 +1,7 @@
 var scoreboardData = [];
 var socket = io();
 
-socket.on('game update',function(msg){
+socket.on('game over',function(msg){
     var isUpdate = false;
     $(scoreboardData).each(function(){
         if(this.username === msg.username){
@@ -14,13 +14,14 @@ socket.on('game update',function(msg){
     if(!isUpdate){
         scoreboardData.push(msg);
     }
-    rebuildScoreboard();
+    rebuildHallOfFame();
 });
+//TODO: Sort these results and present them in a nicer layout
+function rebuildHallOfFame(){
+    $('.halloffame').empty();
+    $('.halloffame').append('<h1>The Amazing Maze Challenge Hall of Fame</h1>');
 
-function rebuildScoreboard(){
-    $('.dashboard').empty();
     $(scoreboardData).each(function(){
-        $('.dashboard').append('<div>' + this.mazeHtml + this.username + '<br>' +
-        this.playerName + ':  ' + this.points + '</div>');
+        $('.halloffame').append('<div>' + this.playerName + ':  ' + this.points + '         ' + this.username     +'</div>');
     });
 }

@@ -27,6 +27,8 @@ var sockets = function(server){
         socket.on('game over', function(msg){
             //broadcast to everyone but the sender
             socket.broadcast.emit('game over', msg);
+            console.log('Game over for user ' + socket.id );
+            io.emit('game over', msg);
         });
     });
 }
