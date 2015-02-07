@@ -20,6 +20,7 @@ socket.on('game update',function(msg){
 function rebuildScoreboard(){
     $('.dashboard').empty();
     $(scoreboardData).each(function(){
-        $('.dashboard').append('<div>' + this.mazeHtml + this.username + this.playerName + '</div>');
+        $('.dashboard').append('<div>' + this.mazeHtml + this.username + '<br>' +
+            this.playerName + ':  ' + this.points + '</div>');
     });
 }

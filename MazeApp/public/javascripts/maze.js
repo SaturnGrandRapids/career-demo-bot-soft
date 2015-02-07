@@ -280,7 +280,7 @@ function keyMove(ev)
             move.left();
             socket.emit('game update',{
                 username: socket.id,
-                points: 1, //TODO
+                points: gamePoints,
                 mazeHtml: gid('maze').outerHTML,
                 playerName: gid('playerInfoBox').value
             });
@@ -289,7 +289,7 @@ function keyMove(ev)
             move.up();
             socket.emit('game update',{
                 username: socket.id,
-                points: 1, //TODO
+                points: gamePoints, //TODO
                 mazeHtml: gid('maze').outerHTML,
                 playerName: gid('playerInfoBox').value
             });
@@ -298,7 +298,7 @@ function keyMove(ev)
             move.right();
             socket.emit('game update',{
                 username: socket.id,
-                points: 1, //TODO
+                points: gamePoints, //TODO
                 mazeHtml: gid('maze').outerHTML,
                 playerName: gid('playerInfoBox').value
             });
@@ -307,7 +307,7 @@ function keyMove(ev)
             move.down();
             socket.emit('game update',{
                 username: socket.id,
-                points: 1, //TODO
+                points: gamePoints, //TODO
                 mazeHtml: gid('maze').outerHTML,
                 playerName: gid('playerInfoBox').value
             });
