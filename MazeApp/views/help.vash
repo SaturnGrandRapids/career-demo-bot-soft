@@ -1,0 +1,24 @@
+@html.extend('layout', function(model){
+
+    @html.block('content', function(model){
+    <head>
+    		<title>About The Amazing Maze Challenge</title>
+    	</head>
+
+        <h1>@model.message</h1>
+        <p> The <b>Amazing Maze Challege</b> was created by <a href="http://www.saturnsys.com">Saturn Systems</a> employees for the 2015 Career Fair at Itasca Community College. This web based application demonstrates how Node.js supports fast, server-side
+        applications and is useful for data intensive real-time applications. The Dashboard and Hall of Fame features of the application collect data from multiple clients using socket IO.
+</p>
+
+<p>
+To play, a user simply fills in their name and presses the start button, then use the cursor keys (or on a touch screen, just swipe) to move. Each move sends the user's score, current maze view and other statistics to the game server.
+The game server collects this information from each player and displays it on the game Dashboard. Notice how quickly each cursor movement for each player is shown on the dashboard.
+</p>
+        <p> Other Page Locations:</p>
+        <ul>
+        <li><b>Dashboard</b> - (server)/dash </li>
+        <li><b>Hall Of Fame</b> -  (server)/fame </li>
+        <li><b>Help (this page)</b> -  (server)/help </li>
+        </ul>
+    })
+})

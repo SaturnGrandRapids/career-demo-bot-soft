@@ -21,8 +21,20 @@ var gameMoves;
 
 var commonFunctions = {
 
+
+    startGame: function () {
+
+        var player = gid('playerInfoBox').value;
+        if (player == "Enter Your Name Here") {
+            alert("Enter your name before starting");
+        }
+        else {
+            startNewGame();
+            clock.start();
+        }
+    },
     endGame: function () {
-     
+
         var tbl = gid('maze');
         tbl.innerHTML = '<tr><td>Game Ended</td></tr>';
         if (tbl.classList.contains('flipped')) {
@@ -67,10 +79,10 @@ var commonFunctions = {
         make_maze(gameTable.level[gameLevel].row,gameTable.level[gameLevel].column);
         gamePoints += gameLevel * 1000
         moves = 0;
-    },
+    }
 
-    
-        
+
+
     
 }
 
@@ -269,7 +281,9 @@ function keyMove(ev)
     {
         if (clock.running != true)
         {
-            clock.start();
+            return false;
+            //need to press the start button to start
+            //clock.start();
 
         }
 
@@ -342,11 +356,11 @@ function captureGesture(ev) {
     }
 }
 
-$(document).ready(function () {
+function startNewGame() {
 
     commonFunctions.buildGameTable();
-   
-    var gestures = new Hammer(gid("maze"));    
+
+    var gestures = new Hammer(gid("maze"));
     gestures.get('swipe').set({ direction: Hammer.DIRECTION_ALL,threshold:2,velocity:0.3 });
     gestures.on("swipeleft swiperight swipeup swipedown tap press", captureGesture);
 
@@ -357,7 +371,7 @@ $(document).ready(function () {
             stop: function() {
                 commonFunctions.endGame();
             },
-        autostart:false
+            autostart:false
         }
     });
 
@@ -368,7 +382,39 @@ $(document).ready(function () {
     clock.stop();
     commonFunctions.generateMaze();
     setTimeout(function () {
-        setInterval(function () {           
+        setInterval(function () {
+            displayPoints.setValue(gamePoints);
+        }, 1000);
+    });
+}
+
+$(document).ready(function () {
+
+    commonFunctions.buildGameTable();
+
+    var gestures = new Hammer(gid("maze"));
+    gestures.get('swipe').set({ direction: Hammer.DIRECTION_ALL,threshold:2,velocity:0.3 });
+    gestures.on("swipeleft swiperight swipeup swipedown tap press", captureGesture);
+
+    clock = $('.clockCountDown').FlipClock(120, {
+        countdown: true,
+        clockFace: 'MinuteCounter',
+        callbacks: {
+            stop: function() {
+                commonFunctions.endGame();
+            },
+            autostart:false
+        }
+    });
+
+    displayPoints = $('.clockPoints').FlipClock(100, {
+        clockFace: 'Counter'
+    });
+
+    clock.stop();
+    commonFunctions.generateMaze();
+    setTimeout(function () {
+        setInterval(function () {
             displayPoints.setValue(gamePoints);
         }, 1000);
     });

@@ -169,6 +169,11 @@
 
 }
 
+h1 {
+    color: darkcyan;
+}
+
+
 table {
     border-collapse: collapse;
     width: 40%;
@@ -238,9 +243,4 @@ td.cur {
 .visited {
 }
 
-.playerName {
-    background: darkcyan;
-    style="width:50%"
-
-}
 
