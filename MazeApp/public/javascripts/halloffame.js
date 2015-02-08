@@ -6,6 +6,7 @@ socket.on('game over',function(msg){
     $(scoreboardData).each(function(){
         if(this.username === msg.username){
             this.points = msg.points;
+            this.moves = msg.moves;
             this.mazeHtml = msg.mazeHtml;
             this.playerName = msg.playerName
             isUpdate = true;
@@ -22,6 +23,6 @@ function rebuildHallOfFame(){
     $('.halloffame').append('<h1>The Amazing Maze Challenge Hall of Fame</h1>');
 
     $(scoreboardData).each(function(){
-        $('.halloffame').append('<div>' + this.playerName + ':  ' + this.points + '         ' + this.username     +'</div>');
+        $('.halloffame').append('<div>' + this.playerName + ':  ' + this.points + '  ' + this.moves + '         ' + this.username     +'</div>');
     });
 }

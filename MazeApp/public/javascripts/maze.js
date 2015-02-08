@@ -16,7 +16,7 @@ var displayPoints;
 var gameLevel = 0;
 var gameTable;
 var gamePoints = 300;
-var gameMoves;
+var gameMoves = 0;
 //start the Clock
 
 var commonFunctions = {
@@ -45,7 +45,8 @@ var commonFunctions = {
         }
         socket.emit('game over',{
             username: socket.id,
-            points: gamePoints, //TODO
+            points: gamePoints,
+            moves: gameMoves,
             mazeHtml: gid('maze').outerHTML,
             playerName: gid('playerInfoBox').value
         });
@@ -84,7 +85,7 @@ var commonFunctions = {
         gameLevel++;
         make_maze(gameTable.level[gameLevel].row,gameTable.level[gameLevel].column);
         gamePoints += gameLevel * 1000
-        moves = 0;
+        //gameMoves = 0;
     }
 
 
@@ -103,6 +104,7 @@ var move = {
         var y = document.getElementsByClassName('cur1');
         if (y[0].classList.contains('w')) {
             gamePoints--;
+            gameMoves++;
             var x = y[0].previousSibling;
             y[0].classList.remove('cur1');
             x.classList.add('cur1');
@@ -121,6 +123,7 @@ var move = {
         var y = document.getElementsByClassName('cur1');
         if (y[0].classList.contains('n')) {
             gamePoints--;
+            gameMoves++;
             y[0].parentNode.previousSibling.cells[y[0].cellIndex].classList.add('cur1');
            
             y[1].classList.remove('cur1');
@@ -136,6 +139,7 @@ var move = {
         var y = document.getElementsByClassName('cur1');
         if (y[0].classList.contains('s')) {
             gamePoints--;
+            gameMoves++;
             y[0].parentNode.nextSibling.cells[y[0].cellIndex].classList.add('cur1');
             y[0].classList.remove('cur1');
             if(y[0].classList.contains('finish'))
@@ -150,6 +154,7 @@ var move = {
         var y = document.getElementsByClassName('cur1');
         if (y[0].classList.contains('e')) {
             gamePoints--;
+            gameMoves++;
             var x = y[0].nextSibling;
             y[0].classList.remove('cur1');
             x.classList.add('cur1');
@@ -301,6 +306,7 @@ function keyMove(ev)
             socket.emit('game update',{
                 username: socket.id,
                 points: gamePoints,
+                moves: gameMoves,
                 mazeHtml: gid('maze').outerHTML,
                 playerName: gid('playerInfoBox').value
             });
@@ -309,7 +315,8 @@ function keyMove(ev)
             move.up();
             socket.emit('game update',{
                 username: socket.id,
-                points: gamePoints, //TODO
+                points: gamePoints,
+                moves: gameMoves,
                 mazeHtml: gid('maze').outerHTML,
                 playerName: gid('playerInfoBox').value
             });
@@ -318,7 +325,8 @@ function keyMove(ev)
             move.right();
             socket.emit('game update',{
                 username: socket.id,
-                points: gamePoints, //TODO
+                points: gamePoints,
+                moves: gameMoves,
                 mazeHtml: gid('maze').outerHTML,
                 playerName: gid('playerInfoBox').value
             });
@@ -327,7 +335,8 @@ function keyMove(ev)
             move.down();
             socket.emit('game update',{
                 username: socket.id,
-                points: gamePoints, //TODO
+                points: gamePoints,
+                moves: gameMoves,
                 mazeHtml: gid('maze').outerHTML,
                 playerName: gid('playerInfoBox').value
             });
