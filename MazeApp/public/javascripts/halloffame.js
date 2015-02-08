@@ -21,8 +21,9 @@ socket.on('game over',function(msg){
 function rebuildHallOfFame(){
     $('.halloffame').empty();
     $('.halloffame').append('<h1>The Amazing Maze Challenge Hall of Fame</h1>');
-
+ //   $('.halloffame').append('<div class="halltable">');
     $(scoreboardData).each(function(){
-        $('.halloffame').append('<div>' + this.playerName + ':  ' + this.points + '  ' + this.moves + '         ' + this.username     +'</div>');
+        $('.halloffame').append('<tr><td text-align:left>' + this.playerName + '</td><td align="right">' + this.points + '</td><td align="right">' + this.moves + '</td><td>       ' + this.username     +'</td></tr>');
     });
+ //   $('.halloffame').append('</div>');
 }

@@ -1,7 +1,7 @@
 @html.extend('layout', function(model){
 
     @html.block('headerStyle', function(model){
-        <link href="/stylesheets/dashboard.css" rel="stylesheet" />
+        <link href="/stylesheets/hall.css" rel="stylesheet" />
     })
 
     @html.block('headerScript',function(model){
@@ -11,8 +11,6 @@
     })
 
     @html.block('content', function(model){
-        <div class="halloffame">
-
-        </div>
+        <div class="halloffame" align:center></div>
     })
 })
