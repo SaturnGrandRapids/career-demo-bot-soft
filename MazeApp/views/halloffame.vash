@@ -11,6 +11,6 @@
     })
 
     @html.block('content', function(model){
-        <div> <div margin-left: 50px><table class="halloffame" border-collapse: collapse ></table></div></div>
+        <div> <div padding-left: 500px><table class="halloffame" padding-left: 50px></table></div></div>
     })
 })
