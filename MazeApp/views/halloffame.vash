@@ -5,9 +5,7 @@
     })
 
     @html.block('headerScript',function(model){
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="/javascripts/jquery-1.8.2.js"></script>
-        <script src="/javascripts/hallOfFame.js"></script>
+        <script src="/javascripts/require.js" data-main="/javascripts/hallOfFame.js"></script>
     })
 
     @html.block('content', function(model){
