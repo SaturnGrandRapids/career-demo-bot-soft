@@ -12,17 +12,7 @@
     })
 
     @html.block('headerScript', function(model){
-        <script src="/javascripts/jquery-1.8.2.js"></script>
-        <script src="/javascripts/jquery.mobile-1.2.0.js"></script>
-        <script src="/javascripts/flipclock.min.js"></script>
-        <script src="/javascripts/modernizr-2.6.2.js"></script>
-        <script src="/javascripts/hammer.min.js"></script>
-        <script src="/javascripts/maze.js"></script>
-        <script src="/socket.io/socket.io.js"></script>
-        <script>
-            var socket = io();
-        </script>
-
+        <script src="/javascripts/require.js" data-main="/javascripts/maze.js"></script>
     })
 
     @html.block('content', function(model){
@@ -33,13 +23,12 @@
 
                 <div align=left style="width:30%" id="playerInfo">
                 <br>
-                   <a href="javascript:commonFunctions.startGame()">Start</a>
-                   <a href="javascript:commonFunctions.endGame()">Quit</a>
+                   <a id="startbutton" href="#">Start</a>
+                   <a id="quitbutton" href="#">Quit</a>
 
                     <input type="text" id="playerInfoBox" name="playerName" class="playerNameClass"
                         maxlength="20" value="Enter Your Name Here">
                 </div>
-
             </div>
             <div data-role="content">
                 <form>
