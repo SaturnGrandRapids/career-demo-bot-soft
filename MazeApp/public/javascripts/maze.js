@@ -11,6 +11,7 @@ Node.prototype.cls = function(t) { this.className += ' ' + t }
 NodeList.prototype.map = function(g) {
     for (var i = 0; i < this.length; i++) g(this[i]);
 }
+
 var clock;
 var displayPoints;
 var gameLevel = 0;
@@ -20,7 +21,6 @@ var gameMoves = 0;
 //start the Clock
 
 var commonFunctions = {
-
 
     startGame: function () {
 

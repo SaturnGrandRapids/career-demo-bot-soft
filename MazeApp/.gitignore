@@ -26,6 +26,9 @@ build/Release
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git-
 node_modules
 
+# VIM 
+*~
+
 ## Intellij Stuff
 *.iml
 
@@ -35,6 +38,7 @@ node_modules
 .idea/dictionaries
 .idea/misc.xml
 .idea/modules.xml
+.idea/vcs.xml
 
 # Sensitive or high-churn files:
 .idea/dataSources.ids
