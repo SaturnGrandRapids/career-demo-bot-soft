@@ -38,6 +38,7 @@ node_modules
 .idea/dictionaries
 .idea/misc.xml
 .idea/modules.xml
+.idea/jsLibraryMappings.xml
 .idea/vcs.xml
 
 # Sensitive or high-churn files:
