@@ -1,7 +1,5 @@
-define(function(require){
+define(['react', 'socketio'], function(React, io){
 
-    var React = require('react');
-    var io = require('socketio');
     var socket = io();
 
     function Admin() {
