@@ -18,4 +18,8 @@ router.get('/hall', function(req, res, next) {
     res.render('halloffame', { title: 'The Amazing Maze Challenge Hall of Fame' });
 });
 
+router.get('/admin', function(req, res, next){
+    res.render('admin', {title: 'Administration'});
+});
+
 module.exports = router;
