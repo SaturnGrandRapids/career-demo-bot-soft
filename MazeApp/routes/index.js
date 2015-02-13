@@ -3,7 +3,11 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('maze', { title: 'Welcome to the Amazing Maze Challenge!' });
+    res.render('start', { title: 'Welcome to the Amazing Maze Challenge!' });
+});
+/* GET home page. */
+router.get('/maze', function(req, res, next) {
+    res.render('maze', { title: 'The Amazing Maze Challenge!' });
 });
 
 router.get('/dash', function(req, res, next) {

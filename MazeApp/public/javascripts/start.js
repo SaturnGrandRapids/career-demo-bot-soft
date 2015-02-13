@@ -67,12 +67,13 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
             startGame: function () {
 
                 var player = gid('playerInfoBox').value;
-                if (player == "Enter Your Name Here") {
-                    alert("Enter your name before starting!!!");
+
+                if (player == "Enter Your Name Here"|"") {
+                    alert("Enter your name before starting");
+                    return;
                 }
                 else {
-                    startNewGame();
-                    clock.start();
+                    window.location.href = 'http://localhost:3000/maze';  //TODO there must be a smarter way
                 }
             },
             endGame: function () {
@@ -409,8 +410,6 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
         }
 
         function startNewGame() {
-            gamePoints = 1000;
-            gameLevel = 0;
 
             commonFunctions.buildGameTable();
 
@@ -451,35 +450,7 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
             $('#quitbutton').click(function(){
                 commonFunctions.endGame()
             });
-            gamePoints = 1000;
-            gameLevel = 0;
-            commonFunctions.buildGameTable();
 
-            //var gestures = new Hammer(gid("maze"));
-            //gestures.get('swipe').set({direction: Hammer.DIRECTION_ALL, threshold: 2, velocity: 0.3});
-            //gestures.on("swipeleft swiperight swipeup swipedown tap press", captureGesture);
-            //
-            //clock = $('.clockCountDown').FlipClock(120, {
-            //    countdown: true,
-            //    clockFace: 'MinuteCounter',
-            //    callbacks: {
-            //        stop: function () {
-            //            commonFunctions.endGame();
-            //        },
-            //        autostart: false
-            //    }
-            //});
-            //
-            //displayPoints = $('.clockPoints').FlipClock(100, {
-            //    clockFace: 'Counter'
-            //});
-            //
-            //clock.stop();
-            commonFunctions.generateMaze();
-            //setTimeout(function () {
-            //    setInterval(function () {
-            //        displayPoints.setValue(gamePoints);
-            //    }, 1000);
-            //});
+
         });
     });

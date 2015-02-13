@@ -23,14 +23,14 @@
 
                 <div align=left style="width:30%" id="playerInfo">
                 <br>
-                   <a id="startbutton" href="#">Start</a>
-                   <a id="quitbutton" href="#">Quit</a>
+                   <a id="startbutton" href="#">Play</a>
+                   <a id="quitbutton" href="/">Quit</a>
 
-                    <input type="text" id="playerInfoBox" name="playerName" class="playerNameClass"
-                        maxlength="20" value="Enter Your Name Here">
+                    <text type="text" id="playerInfoBox" name="playerName" class="playerNameClass"
+                        maxlength="20" value="hello">
                 </div>
             </div>
-            <div data-role="content">
+            <div align=center data-role="content">
                 <form>
                     <fieldset style="display:none;">
                         <label>rows </label><input id='rows' size="3" />
@@ -39,12 +39,12 @@
                         <a id='solve' style='display:none' href='javascript:solve(); void(0)'>Solve</a>
                     </fieldset>
                 </form>
-                <div>
+                <div  >
                     <table id='maze' />
                     <div style="float:right; width:50%" >
-                        <div class="flip-clock-meridium" style="margin-left:10px; padding-bottom:10px;"><br />Time Left:</div>
-                        <div class="clockCountDown"></div>
-                        <div class="flip-clock-meridium" style="margin-left:10px;"><br />Points:</div>
+                        <div class="flip-clock-meridium" align=left ><br />Time Left:</div>
+                        <div class="clockCountDown" ></div>
+                        <div class="flip-clock-meridium" align=left ><br />Points:</div>
                         <div class="clockPoints"></div>
                     </div>
                 </div>

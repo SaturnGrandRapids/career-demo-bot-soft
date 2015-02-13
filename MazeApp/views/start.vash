@@ -1,0 +1,34 @@
+﻿@html.extend('layout', function(model){
+
+    @html.block('headerStyle', function(model){
+        <meta name="viewport" content="width=device-width" />
+        <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <link href="/stylesheets/jquery.mobile-1.2.0.css" rel="stylesheet" />
+        <link href="/stylesheets/jquery.mobile.structure-1.2.0.css" rel="stylesheet" />
+        <link href="/stylesheets/jquery.mobile.theme-1.2.0.css" rel="stylesheet" />
+        <link href="/stylesheets/site.css" rel="stylesheet" />
+        <link href="/stylesheets/flipclock.css" rel="stylesheet" />
+        <link href="/stylesheets/start.css" rel="stylesheet" />
+    })
+
+    @html.block('headerScript', function(model){
+        <script src="/javascripts/require.js" data-main="/javascripts/start.js"></script>
+    })
+
+    @html.block('content', function(model){
+        <div data-role="page" data-theme="b">
+            <div data-role="header">
+                <h1>The Amazing Maze Challenge</h1>
+                <a data-icon="help" align=right href="/help">Help</a>
+
+                <div align=left style="width:30%" id="playerInfo">
+                <br>
+                   <a id="startbutton" href="#">Start</a>
+
+                    <input type="text" id="playerInfoBox" name="playerName" class="playerNameClass"
+                        maxlength="20" value="Enter Your Name Here" 2 onblur="if(this.value.length == 0) this.value='Enter Your Name Here';" onclick="if(this.value == 'Enter Your Name Here') this.value='';" />
+                </div>
+            </div>
+        </div>
+    })
+})
