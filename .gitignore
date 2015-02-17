@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 MazeApp/.idea/misc.xml
 MazeApp/.idea/runConfigurations/bin_www.xml
 MazeApp/.idea/misc.xml
@@ -9,3 +10,7 @@ MazeApp/.idea/vcs.xml
 *.gitignore~
 .idea/workspace.xml
 .idea/workspace.xml
+=======
+**/.idea/*
+*.gitignore~
+>>>>>>> 21e80edf7afcd353e5e555d2ce331f8930b47a40
