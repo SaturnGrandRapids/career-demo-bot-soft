@@ -7,7 +7,7 @@ var sockets = function(server){
 
     // in order to use the db need to install mongodb and start it (C:\Program Files\MongoDB 2.6 Standard\bin\mongod.exe --dbpath c:\mongodata)
     var users = require('./mazeUsers.js');
-//    var dbInstance = new users();
+   var dbInstance = new users();
 
     console.log("here in sockets.js");
 
@@ -44,31 +44,31 @@ var sockets = function(server){
 
         socket.on('checkUser', function(id, fn){
             console.log('checkUserxxx??' + id);
-            var results = isUserValid(id, fn);
+            var results = dbInstance.isUserValid(id, fn);
             //TODO: because findOne is Async, checkUser is not working
             console.log('resultsinSockets:' + results);
             console.log('checkUserxxx??' + id);
-        })
+        });
 
         socket.on('addUser', function(id, fn){
             console.log('addUser?? ' + id);
-            addUser( { "id" : id, "score" : "0", "moves" : "0"});
+           dbInstance. addUser( { "id" : id, "score" : "0", "moves" : "0"});
             //TODO error handling if add fails
             console.log('endofaddUser');
-        })
+        });
 
         socket.on('getUsers', function(fn){
             console.log('getUsers?? ');
             //TODO: this function will be needed to return a list (JSON) of players
             //will need to sort/subset by round
-            getUsers();
+            dbInstance.getUsers();
             //TODO error handling if add fails
             console.log('endofgetUsers');
         })
 
 
     });
-}
+};
 
 
 module.exports = sockets;

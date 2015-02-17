@@ -10,7 +10,7 @@
  */
 mongojs = require("mongojs");
 
-var dbs2 = function(){
+var mazeUsers = function(){
     /// return msg();
     console.log("here we are in dbs2");
     var self = this;
@@ -39,7 +39,7 @@ var dbs2 = function(){
      * @param user
      * @param fn
      */
-    isUserValid = function (user, fn){
+    self.isUserValid = function (user, fn){
         console.log("Need to check the user here " + user);
 //      check to see if that name is already in use
         var docs;
@@ -57,14 +57,14 @@ var dbs2 = function(){
     };
     
     
-    addUser = function (user){
+    self.addUser = function (user){
         console.log("here we are in addUser function " + user);
 //        db.Players.insert({ "id" : "mary3", "score" : "1"})
         playerdb.Players.insert(user)
 
     };
     
-    getUsers = function (){
+    self.getUsers = function (){
         console.log("here we are in getUsers function" );
         return playerdb.Players.find();
     };
@@ -72,6 +72,6 @@ var dbs2 = function(){
 
 
 // this allows dbs to be called as a function when defined with a 'required'
-module.exports = dbs2;
+module.exports = mazeUsers;
 
 
