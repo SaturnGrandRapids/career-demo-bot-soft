@@ -60,12 +60,10 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
         var gameTable;
         var gamePoints = 300;
         var gameMoves = 0;
-//start the Clock
 
         var commonFunctions = {
 
             startGame: function () {
-
                 var player = gid('playerInfoBox').value;
 
                 if (player == "Enter Your Name Here"|"") {
@@ -73,7 +71,26 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
                     return;
                 }
                 else {
-                    window.location.href = 'http://localhost:3000/maze';  //TODO there must be a smarter way
+                //calling function on server and expecting callback
+                    console.log("hello" + player);
+                    socket.emit('checkUser', player, function(msg){
+                        console.log("hello" + player);
+
+                    if(msg){
+                        //call add user message and move on
+                        socket.emit('addUser', player, function(msg) {
+
+                            if(msg == 'userIsValid')
+                                console.log('users gotten' + msg);
+                            else
+                                alert('Error trying to add User');
+                        });
+                    }
+                    else{
+                        alert('Sorry, the name: "' + player + '" is already taken!');
+                    }
+                });
+                window.location.href = 'http://localhost:3000/maze';  //TODO there must be a smarter way
                 }
             },
             endGame: function () {
@@ -93,42 +110,6 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
                     mazeHtml: gid('maze').outerHTML,
                     playerName: gid('playerInfoBox').value
                 });
-            },
-            buildGameTable: function () {
-                gameTable = {
-                    level: [
-                        {row: 5, column: 5},
-                        {row: 5, column: 6},
-                        {row: 6, column: 6},
-                        {row: 7, column: 7},
-                        {row: 7, column: 8},
-                        {row: 7, column: 9},
-                        {row: 8, column: 8},
-                        {row: 8, column: 9},
-                        {row: 9, column: 9},
-                        {row: 10, column: 10},
-                        {row: 10, column: 12},
-                        {row: 11, column: 12},
-                        {row: 12, column: 12},
-                        {row: 13, column: 13},
-                        {row: 14, column: 14},
-                        {row: 15, column: 15},
-                        {row: 15, column: 16},
-                        {row: 15, column: 17},
-                        {row: 16, column: 17},
-                        {row: 17, column: 17}
-                    ]
-                }
-
-            },
-
-
-            generateMaze: function () {
-
-                gameLevel++;
-                make_maze(gameTable.level[gameLevel].row, gameTable.level[gameLevel].column);
-                gamePoints += gameLevel * 1000
-                //gameMoves = 0;
             }
 
 
@@ -299,115 +280,6 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
             }
         }
 
-        function solve(c, t) {
-            if (c === undefined) {
-                c = gid('maze').kid(1).kid(1);
-                c.cls('v');
-            }
-            if (t === undefined)
-                t = gid('maze').lastChild.previousSibling
-                    .lastChild.previousSibling;
-
-            if (c === t) return 1;
-            c.vis = 1;
-            for (var i = 0; i < 4; i++) {
-                var x = c.neighbors[i];
-                if (x.tagName.toLowerCase() == 'th') continue;
-                if (x.vis || !c.className.match(dirs[i]) || !solve(x, t))
-                    continue;
-
-                x.cls('v');
-                return 1;
-            }
-            c.vis = null;
-
-            return 0;
-        }
-
-
-        function keyMove(ev) {
-            var y = document.getElementsByClassName('cur1');
-
-            if (ev.keyCode > 36 && ev.keyCode < 41) {
-                if (clock.running != true) {
-                    return false;
-                    //need to press the start button to start
-                    //clock.start();
-
-                }
-
-            }
-            switch (ev.keyCode) {
-                case 37: /* left */
-
-                    move.left();
-                    socket.emit('game update', {
-                        username: socket.id,
-                        points: gamePoints,
-                        moves: gameMoves,
-                        mazeHtml: gid('maze').outerHTML,
-                        playerName: gid('playerInfoBox').value
-                    });
-                    return false;
-                case 38: /* up */
-                    move.up();
-                    socket.emit('game update', {
-                        username: socket.id,
-                        points: gamePoints,
-                        moves: gameMoves,
-                        mazeHtml: gid('maze').outerHTML,
-                        playerName: gid('playerInfoBox').value
-                    });
-                    return false;
-                case 39: /* right */
-                    move.right();
-                    socket.emit('game update', {
-                        username: socket.id,
-                        points: gamePoints,
-                        moves: gameMoves,
-                        mazeHtml: gid('maze').outerHTML,
-                        playerName: gid('playerInfoBox').value
-                    });
-                    return false;
-                case 40: /* down */
-                    move.down();
-                    socket.emit('game update', {
-                        username: socket.id,
-                        points: gamePoints,
-                        moves: gameMoves,
-                        mazeHtml: gid('maze').outerHTML,
-                        playerName: gid('playerInfoBox').value
-                    });
-                    return false;
-                default:
-                    //   log("interaction", "Key press: %d", ev.keyCode);
-                    return true;
-            }
-        }
-
-
-        function captureGesture(ev) {
-
-            ev.preventDefault();
-
-            switch (ev.type) {
-                case "swipeleft":
-                    move.left();
-                    return true;
-
-                case "swipeup":
-                    move.up();
-                    return false;
-                case "swiperight":
-                    move.right();
-                    return false;
-                case "swipedown":
-                    move.down();
-                    return false;
-                default:
-                    return true;
-            }
-        }
 
         function startNewGame() {
 
