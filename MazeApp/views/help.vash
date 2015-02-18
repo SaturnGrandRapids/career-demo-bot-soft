@@ -11,13 +11,13 @@
 </p>
 
 <p>
-To play, a user simply fills in their name and presses the start button, then use the cursor keys (or on a touch screen, just swipe) to move. Each move sends the user's score, current maze view and other statistics to the game server.
-The game server collects this information from each player and displays it on the game Dashboard. Notice how quickly each cursor movement for each player is shown on the dashboard.
+To play, simply fill in your name and press the start button, when the maze appears, press the Start button and use the cursor keys (or on a touch screen, use arrows or swipe) to move. Each move sends the user's score, current maze view and other statistics to the game server.
+The game server collects this information and displays it in real time on the game Dashboard. Notice how quickly each cursor movement for each player is shown on the dashboard.
 </p>
         <p> Other Page Locations:</p>
         <ul>
         <li><b>Dashboard</b> - (server)/dash </li>
-        <li><b>Hall Of Fame</b> -  (server)/fame </li>
+        <li><b>Hall Of Fame</b> -  (server)/hall </li>
         <li><b>Help (this page)</b> -  (server)/help </li>
         </ul>
     })
