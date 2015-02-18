@@ -90,7 +90,7 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
                         alert('Sorry, the name: "' + player + '" is already taken!');
                     }
                 });
-                window.location.href = 'http://localhost:3000/maze';  //TODO there must be a smarter way
+                window.location.href = 'maze';  //TODO there must be a smarter way
                 }
             },
             endGame: function () {

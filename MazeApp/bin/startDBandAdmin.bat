@@ -1,3 +1,4 @@
+@rem Sample bat file used to start the Mongodb and Mongo-Express on the server box
 @rem Need to start the Mongo Database
 start "C:\Program Files\MongoDB 2.6 Standard\bin\mongod.exe" --dbpath c:\mongodata
 @rem Using Mongo-Express for a web based admin tool
