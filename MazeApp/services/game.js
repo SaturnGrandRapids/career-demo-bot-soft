@@ -45,7 +45,7 @@ function gameService() {
             self.GetCurrentRound(function (err, data) {
                 db.Game.insert({
                     runtime: runTime.runTimeId,
-                    user: userName,
+                    userName: userName,
                     round: data,
                     points: 0,
                     status: 'running'
@@ -77,7 +77,7 @@ function gameService() {
                     db.Games.find({
                         runtime: runTime.runTimeId,
                         round: data,
-                        sttus: 'running'
+                        status: 'running'
                     }, callback);
             });
         },

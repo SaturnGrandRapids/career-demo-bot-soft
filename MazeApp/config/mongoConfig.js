@@ -1,4 +1,4 @@
 module.exports = {
-    url : 'test',
+    url : 'maze',
     collections: ['Users','Games','Rounds']
 }
