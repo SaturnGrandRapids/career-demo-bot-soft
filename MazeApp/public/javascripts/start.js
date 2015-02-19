@@ -1,22 +1,21 @@
-﻿
-require.config({
+﻿require.config({
     // The shim config allows us to configure dependencies for
     // scripts that do not call define() to register a module
     shim: {
-        'jquery' : {
-            exports : 'jQuery'
+        'jquery': {
+            exports: 'jQuery'
         },
         'socketio': {
             exports: 'io'
         },
-        'flipclock':{
+        'flipclock': {
             deps: ['jquery'],
             exports: 'FlipClock'
         },
         'modernizr': {
             exports: 'Modernizr'
         },
-        'hammer':{
+        'hammer': {
             exports: 'Hammer'
         }
     },
@@ -31,8 +30,8 @@ require.config({
     }
 });
 
-require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
-    function($, io, FlipClock,Hammer) {
+require(['jquery', 'socketio', 'flipclock', 'hammer', 'modernizr'],
+    function ($, io, FlipClock, Hammer) {
 
         var socket = io();
 
@@ -66,31 +65,32 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
             startGame: function () {
                 var player = gid('playerInfoBox').value;
 
-                if (player == "Enter Your Name Here"|"") {
+                if (player == "Enter Your Name Here" | "") {
                     alert("Enter your name before starting");
                     return;
                 }
                 else {
-                //calling function on server and expecting callback
+                    //calling function on server and expecting callback
                     console.log("hello" + player);
-                    socket.emit('checkUser', player, function(msg){
+                    socket.emit('checkUser', player, function (msg) {
                         console.log("hello" + player);
-
-                    if(msg){
-                        //call add user message and move on
-                        socket.emit('addUser', player, function(msg) {
-
-                            if(msg == 'userIsValid')
-                                console.log('users gotten' + msg);
-                            else
-                                alert('Error trying to add User');
-                        });
-                    }
-                    else{
-                        alert('Sorry, the name: "' + player + '" is already taken!');
-                    }
-                });
-                window.location.href = 'maze';  //TODO there must be a smarter way
+                        if (msg) {
+                            //call add user message and move on
+                            socket.emit('addUser', player, function (err, msg) {
+                                if (err == null) {
+                                    //we don't have an error, so let's rock!!!
+                                    //set to local storage and head to the maze
+                                    localStorage.setItem('user', msg);
+                                    window.location.href = 'maze';
+                                }
+                                else
+                                    alert('Error trying to add User');
+                            });
+                        }
+                        else {
+                            alert('Sorry, the name: "' + player + '" is already taken!');
+                        }
+                    });
                 }
             },
             endGame: function () {
@@ -103,7 +103,7 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
                 else {
                     tbl.classList.add('flipped');
                 }
-                socket.emit('game over', {
+                socket.emit('game:over', {
                     username: socket.id,
                     points: gamePoints,
                     moves: gameMoves,
@@ -316,10 +316,10 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
         $(document).ready(function () {
 
             //add start and quit handlers
-            $('#startbutton').click(function(){
+            $('#startbutton').click(function () {
                 commonFunctions.startGame();
             });
-            $('#quitbutton').click(function(){
+            $('#quitbutton').click(function () {
                 commonFunctions.endGame()
             });
 

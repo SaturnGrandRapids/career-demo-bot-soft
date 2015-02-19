@@ -3,5 +3,4 @@
     @html.block('headerScript',function(model){
     <script src="/javascripts/require.js" data-main="/javascripts/admin.js"></script>
     })
-
 })

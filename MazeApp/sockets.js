@@ -3,14 +3,12 @@
  * @param server
  */
 var sockets = function(server){
+
     var io = require('socket.io')(server);
 
     // in order to use the db need to install mongodb and start it (C:\Program Files\MongoDB 2.6 Standard\bin\mongod.exe --dbpath c:\mongodata)
-    var users = require('./mazeUsers.js');
-   var dbInstance = new users();
-
-    console.log("here in sockets.js");
-
+    var userService = require('./services/user.js')();
+    var gameService = require('./services/game.js')();
 
     io.on('connection', function(socket){
         console.log('a user with socket ' + socket.id + ' connected');
@@ -20,53 +18,40 @@ var sockets = function(server){
         });
 
         /**
+         * Handler for game initiation
+         *
+         */
+        socket.on('game:start', function(msg, callback){
+            console.log('Game over for user ' + socket.id );
+            gameService.Init(callback);
+        });
+
+        /**
          * Emit game event updates
          */
-        socket.on('game update', function(msg){
-            //broadcast to everyone including (for now) the sender
-            console.log('user with socket ' + socket.id + ' posted game update');
+        socket.on('game:update', function(msg){
             io.emit('game update', msg);
         });
 
         /**
          * Emit game over update
          */
-        socket.on('game over', function(msg){
-            //broadcast to everyone but the sender
-            socket.broadcast.emit('game over', msg);
+        socket.on('game:over', function(msg){
             console.log('Game over for user ' + socket.id );
-            io.emit('game over', msg);
-        });
-        
-        socket.on('givemeplayers', function(msg){ //TODO
-
+            socket.broadcast.emit('game:over', msg);
         });
 
-        socket.on('checkUser', function(id, fn){
-            console.log('checkUserxxx??' + id);
-            var results = dbInstance.isUserValid(id, fn);
-            //TODO: because findOne is Async, checkUser is not working
-            console.log('resultsinSockets:' + results);
-            console.log('checkUserxxx??' + id);
+        socket.on('checkUser', function(name, callback){
+            userService.isUserValid(name, callback);
         });
 
-        socket.on('addUser', function(id, fn){
-            console.log('addUser?? ' + id);
-           dbInstance. addUser( { "id" : id, "score" : "0", "moves" : "0"});
-            //TODO error handling if add fails
-            console.log('endofaddUser');
+        socket.on('addUser', function(name, callback){
+            userService.addUser( { "name" : name}, callback);
         });
 
-        socket.on('getUsers', function(fn){
-            console.log('getUsers?? ');
-            //TODO: this function will be needed to return a list (JSON) of players
-            //will need to sort/subset by round
-            dbInstance.getUsers();
-            //TODO error handling if add fails
-            console.log('endofgetUsers');
-        })
-
-
+        socket.on('getUsers', function(callback){
+            userService.getUsers(callback);
+        });
     });
 };
 

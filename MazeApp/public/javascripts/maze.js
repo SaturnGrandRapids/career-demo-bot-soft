@@ -85,7 +85,7 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
                 else {
                     tbl.classList.add('flipped');
                 }
-                socket.emit('game over', {
+                socket.emit('game:over', {
                     username: socket.id,
                     points: gamePoints,
                     moves: gameMoves,
