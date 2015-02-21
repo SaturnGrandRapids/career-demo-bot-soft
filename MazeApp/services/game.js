@@ -4,101 +4,108 @@ function gameService() {
     var runTime = require('../config/runTime');
     var _ = require('underscore');
 
-    return {
+    /**
+     * Initializes the service
+     * @constructor
+     */
+    var init = function (callback) {
+        //if we don't have a round in the system, create the first
+        getCurrentRound(function(err, data){
+            if(!data){
+                incrementRound(callback);
+            }
+        })
+    };
 
-        /**
-         * Initializes the service
-         * @constructor
-         */
-        Init: function (callback) {
-            IncrementRound(callback);
-        },
+    /**
+     * Increments the round
+     * @constructor
+     */
+    var incrementRound = function (callback) {
+        db.Rounds.insert({runTime: runTime.runTimeId}, callback);
+    };
 
-        /**
-         * Increments the round
-         * @constructor
-         */
-        IncrementRound: function (callback) {
-            db.Rounds.insert({
-                runTime: runTime.runTimeId
+    /**
+     * Gets the current round
+     * @param callback
+     * @constructor
+     */
+    var getCurrentRound = function (callback) {
+        db.Rounds.count({
+            runtime: runTime.runTimeId
+        }, callback);
+    };
+
+    /**
+     * Starts a new game on the current round
+     * @param userName
+     * @param callback
+     * @constructor
+     */
+    var startGame = function (userName, callback) {
+        self.GetCurrentRound(function (err, data) {
+            db.Game.insert({
+                runtime: runTime.runTimeId,
+                userName: userName,
+                round: data,
+                points: 0,
+                status: 'running'
             }, callback);
-        },
+        });
+    };
 
-        /**
-         * Gets the current round
-         * @param callback
-         * @constructor
-         */
-        GetCurrentRound: function (callback) {
-            db.Rounds.count({
-                runtime: runTime.runTimeId
-            }, callback);
-        },
+    /**
+     * Updates the final score of a finished game
+     * @param game
+     * @param callback
+     * @constructor
+     */
+    var endGame = function (game, callback) {
+        game.status = 'over';
+        db.Games.update({_id: game.id}, game, {}, callback);
+    };
 
-        /**
-         * Starts a new game on the current round
-         * @param userName
-         * @param callback
-         * @constructor
-         */
-        StartGame: function (userName, callback) {
-            self.GetCurrentRound(function (err, data) {
-                db.Game.insert({
+    /**
+     * Gets all the currently running games
+     * @returns {*}
+     * @constructor
+     */
+    var getCurrentRunningGames = function (callback) {
+        self.GetCurrentRound(function (err, data) {
+            if (err != null && typeof callback === 'function')
+                callback(err, null);
+            else
+                db.Games.find({
                     runtime: runTime.runTimeId,
-                    userName: userName,
                     round: data,
-                    points: 0,
                     status: 'running'
                 }, callback);
-            });
-        },
+        });
+    };
 
-        /**
-         * Updates the final score of a finished game
-         * @param game
-         * @param callback
-         * @constructor
-         */
-        EndGame: function (game, callback) {
-            game.status = 'over';
-            db.Games.update({_id: game.id}, game, {}, callback);
-        },
+    /**
+     * Gets all of the games from this runtime
+     * @param callback
+     * @constructor
+     */
+    var getAllGames = function (callback) {
+        db.Games.find({runTime: runTime.runTimeId}, callback);
+    };
 
-        /**
-         * Gets all the currently running games
-         * @returns {*}
-         * @constructor
-         */
-        GetCurrentRunningGames: function (callback) {
-            self.GetCurrentRound(function (err, data) {
-                if (err != null && typeof callback === 'function')
-                    callback(err, null);
-                else
-                    db.Games.find({
-                        runtime: runTime.runTimeId,
-                        round: data,
-                        status: 'running'
-                    }, callback);
-            });
-        },
 
-        /**
-         * Gets all of the games from this runtime
-         * @param callback
-         * @constructor
-         */
-        GetAllGames: function (callback) {
-            self.GetCurrentRound(function (err, data) {
-                if (err != null && typeof callback === 'function')
-                    callback(err, null);
-                else
-                    db.Games.count({
-                        round: data
-                    }, callback);
-            });
-        }
+    //Call init before returning the singleton
+    init(function(err, data){
+        //nothing to do at this point.
+    });
+
+    return{
+        IncrementRound: incrementRound,
+        GetCurrentRound: getCurrentRound,
+        StartGame: startGame,
+        EndGame: endGame,
+        GetCurrentRunningGames: getCurrentRunningGames,
+        GetAllGames: getAllGames
     }
 }
-
 
 module.exports = gameService;

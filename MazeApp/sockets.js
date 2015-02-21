@@ -22,8 +22,8 @@ var sockets = function(server){
          *
          */
         socket.on('game:start', function(msg, callback){
-            console.log('Game over for user ' + socket.id );
-            gameService.Init(callback);
+            console.log('Game starting for user ' + socket.id );
+ //           gameService.Init(callback);
         });
 
         /**
