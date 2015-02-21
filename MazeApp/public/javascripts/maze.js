@@ -419,6 +419,15 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
             gestures.get('swipe').set({direction: Hammer.DIRECTION_ALL, threshold: 2, velocity: 0.3});
             gestures.on("swipeleft swiperight swipeup swipedown tap press", captureGesture);
 
+            socket.emit('game:start', {
+                username: socket.id,
+                points: gamePoints,
+                moves: gameMoves,
+                mazeHtml: gid('maze').outerHTML,
+//                playerName: gid('playerSecretBox').value
+                playerName: gid('playerInfoBox').value
+            });
+
             clock = $('.clockCountDown').FlipClock(120, {
                 countdown: true,
                 clockFace: 'MinuteCounter',

@@ -73,8 +73,8 @@ require(['jquery', 'socketio', 'flipclock', 'hammer', 'modernizr'],
                     //calling function on server and expecting callback
                     //We no longer care about duplicate names
                     socket.emit('checkUser', player, secret, function (msg) {
-                        console.log("hello" + player + secret);
-                        if (msg) {
+                        console.log("hello" + player + secret + msg );
+                        if (msg == "NewUser") {
                             //call add user message and move on
                             socket.emit('addUser', player, secret, function (err, msg) {
                                 if (err == null) {
@@ -88,12 +88,18 @@ require(['jquery', 'socketio', 'flipclock', 'hammer', 'modernizr'],
                             });
                         }
                         else {
-                            //We no longer have a problem if someone is rejoining , so let's rock!!!
-                            //TODO: could add a welcome back your previous high score is xxx if same user / secret
-                            //set to local storage and head to the maze
-                            localStorage.setItem('user', msg);
-                            window.location.href = 'maze';
+                            if (msg == "ErrorUser") {
+                                //We no longer have a problem if someone is rejoining , so let's rock!!!
+                                //TODO: could add a welcome back your previous high score is xxx if same user / secret
+                                alert('Oops, Player: "' + player + '" is already taken & the Secret Word does not match!');
+                                return;
+                            }
+                            else{
+//                                alert('Welcome Back ' + player);
+                                localStorage.setItem('user', msg);
+                                window.location.href = 'maze';
 
+                            }
                         }
                     });
                 }
