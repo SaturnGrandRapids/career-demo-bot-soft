@@ -424,7 +424,6 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
                 points: gamePoints,
                 moves: gameMoves,
                 mazeHtml: gid('maze').outerHTML,
-//                playerName: gid('playerSecretBox').value
                 playerName: gid('playerInfoBox').value
             });
 

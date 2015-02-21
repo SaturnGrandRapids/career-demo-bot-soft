@@ -32,7 +32,8 @@ var sockets = function(server){
          */
         socket.on('game:start', function(msg, callback){
             console.log('Game starting for user ' + socket.id );
-            gameService.StartGame(function(err, data){
+            //TODO:this is the unreadable username...don't think we want this (but we also don't want the entire msg added to the game record
+            gameService.StartGame(msg.username,function(err, data){
                 if(!err) {
                     socket.broadcast.emit('game:start', data);
                 }
@@ -54,7 +55,8 @@ var sockets = function(server){
          */
         socket.on('game:over', function(msg, callback){
             console.log('Game over for user ' + socket.id );
-            gameService.EndGame(function(err, data){
+            //TODO: again do we really want unreadable username??
+            gameService.EndGame(msg.username,function(err, data){
                 if(!err){
                     socket.broadcast.emit('game:over', data);
                 }

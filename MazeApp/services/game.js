@@ -40,7 +40,7 @@ function gameService() {
      * @constructor
      */
     var incrementRound = function (callback) {
-        db.Rounds.insert({runTime: runTime.runTimeId}, callback);
+        db.Rounds.insert({runtime: runTime.runTimeId}, callback);
     };
 
     /**
@@ -61,15 +61,15 @@ function gameService() {
      * @constructor
      */
     var startGame = function (userName, callback) {
-        self.GetCurrentRound(function (err, data) {
-            db.Game.insert({
+        getCurrentRound(function (err, data) {
+            db.Games.insert({
                 runtime: runTime.runTimeId,
                 userName: userName,
                 round: data,
                 points: 0,
                 status: 'running',
                 startTime: Date.now(),
-                priceAwarded: false
+                prizeAwarded: false
             }, callback);
         });
     };
@@ -91,7 +91,7 @@ function gameService() {
      * @constructor
      */
     var getCurrentRunningGames = function (callback) {
-        self.GetCurrentRound(function (err, data) {
+        getCurrentRound(function (err, data) {
             if (err != null && typeof callback === 'function')
                 callback(err, null);
             else

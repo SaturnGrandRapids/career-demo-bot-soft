@@ -23,7 +23,7 @@
 
                 <div align=left style="width:30%" id="playerInfo">
                 <br>
-                   <a id="startbutton" href="#">Play</a>
+                   <a id="startbutton" href="#">Play<img src="../stylesheets/images/lollypop-music-player-icon.png" width="40" height="40"></a>
                    <a id="quitbutton" href="/">Quit</a>
 
                     <div type="text" id="playerInfoBox" name="playerName" class="playerNameClass"
