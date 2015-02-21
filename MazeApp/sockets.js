@@ -10,6 +10,15 @@ var sockets = function(server){
     var userService = require('./services/user.js')();
     var gameService = require('./services/game.js')();
 
+    //start the pruning function on an interval (10 sec)
+    setInterval(function(){
+        gameService.Prune(function(err, data){
+            if(!err){
+                io.emit('game:over', data);
+            }
+        })
+    }, 10000);
+
     io.on('connection', function(socket){
         console.log('a user with socket ' + socket.id + ' connected');
 
@@ -23,7 +32,14 @@ var sockets = function(server){
          */
         socket.on('game:start', function(msg, callback){
             console.log('Game starting for user ' + socket.id );
- //           gameService.Init(callback);
+            gameService.StartGame(function(err, data){
+                if(!err) {
+                    socket.broadcast.emit('game:start', data);
+                }
+                if(typeof callback === 'function') {
+                    callback(err, data);
+                }
+            });
         });
 
         /**
@@ -36,9 +52,23 @@ var sockets = function(server){
         /**
          * Emit game over update
          */
-        socket.on('game:over', function(msg){
+        socket.on('game:over', function(msg, callback){
             console.log('Game over for user ' + socket.id );
-            socket.broadcast.emit('game:over', msg);
+            gameService.EndGame(function(err, data){
+                if(!err){
+                    socket.broadcast.emit('game:over', data);
+                }
+                if(typeof callback === 'function'){
+                    callback(err, data);
+                }
+            });
+        });
+
+        /**
+         *
+         */
+        socket.on('round:increment', function(msg){
+
         });
 
         socket.on('checkUser', function(name, secret, callback){

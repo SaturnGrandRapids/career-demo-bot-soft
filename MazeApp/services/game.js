@@ -9,13 +9,31 @@ function gameService() {
      * @constructor
      */
     var init = function (callback) {
+
         //if we don't have a round in the system, create the first
         getCurrentRound(function(err, data){
             if(!data){
+                //create the first round
                 incrementRound(callback);
             }
         })
     };
+
+    var prune = function(callback){
+        var subtractMinutes = function(d, minutes){
+            var millisecondsInMinute = 60000;
+            return new Date(d.valueOf() - (minutes * millisecondsInMinute));
+        }
+        db.Games.find({
+            runTime: runTime.runTimeId,
+            status: 'running',
+            startTime: {$lt:subtractMinutes(Date.now(), 3)}
+        }).forEach(function(err, data){
+            if(data){
+                endGame(data, callback);
+            }
+        });
+    }
 
     /**
      * Increments the round
@@ -49,7 +67,9 @@ function gameService() {
                 userName: userName,
                 round: data,
                 points: 0,
-                status: 'running'
+                status: 'running',
+                startTime: Date.now(),
+                priceAwarded: false
             }, callback);
         });
     };
@@ -92,7 +112,6 @@ function gameService() {
         db.Games.find({runTime: runTime.runTimeId}, callback);
     };
 
-
     //Call init before returning the singleton
     init(function(err, data){
         //nothing to do at this point.
@@ -104,7 +123,8 @@ function gameService() {
         StartGame: startGame,
         EndGame: endGame,
         GetCurrentRunningGames: getCurrentRunningGames,
-        GetAllGames: getAllGames
+        GetAllGames: getAllGames,
+        Prune: prune
     }
 }
 
