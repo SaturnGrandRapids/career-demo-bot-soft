@@ -13,6 +13,7 @@
 <p>
 To play, simply fill in your name and press the start button, when the maze appears, press the Start button and use the cursor keys (or on a touch screen, use arrows or swipe) to move. Each move sends the user's score, current maze view and other statistics to the game server.
 The game server collects this information and displays it in real time on the game Dashboard. Notice how quickly each cursor movement for each player is shown on the dashboard.
+NOTE: this demo is intended to run on Chrome browser only, animation issues may result on other flavors.
 </p>
         <p> Other Page Locations:</p>
         <ul>

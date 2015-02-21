@@ -20,23 +20,23 @@ var userService = function () {
      * @param user
      * @param fn
      */
-    var isUserValid = function (user, fn) {
-        console.log("Need to check the user here " + user);
-        db.Users.findOne({name: user}, function (err, data) {
+    var isUserValid = function (user, secret, fn) {
+        console.log("Need to check the user here " + user + secret);
+        db.Users.findOne({name: user, secret:secret}, function (err, data) {
             // docs is an array of all the documents in mycollection
             if (data == null) {
                 fn(true);
             }
             else {
-                console.log("got one of these already " + data.id.toString());
+                console.log("got one of these already, but that's ok ");
                 fn(false);
             }
         });
     };
 
-    var addUser = function (user, callback) {
+    var addUser = function (user, secret, callback) {
         console.log("here we are in addUser function " + user);
-        db.Users.insert(user, callback);
+        db.Users.insert(user, secret, callback);
     };
 
     var getUsers = function (callback) {

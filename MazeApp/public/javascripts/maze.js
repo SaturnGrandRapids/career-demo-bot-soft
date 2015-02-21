@@ -56,6 +56,7 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
 
         var clock;
         var displayPoints;
+        var displayUser;
         var gameLevel = 0;
         var gameTable;
         var gamePoints = 300;
@@ -454,32 +455,5 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
             gamePoints = 1000;
             gameLevel = 0;
             commonFunctions.buildGameTable();
-
-            //var gestures = new Hammer(gid("maze"));
-            //gestures.get('swipe').set({direction: Hammer.DIRECTION_ALL, threshold: 2, velocity: 0.3});
-            //gestures.on("swipeleft swiperight swipeup swipedown tap press", captureGesture);
-            //
-            //clock = $('.clockCountDown').FlipClock(120, {
-            //    countdown: true,
-            //    clockFace: 'MinuteCounter',
-            //    callbacks: {
-            //        stop: function () {
-            //            commonFunctions.endGame();
-            //        },
-            //        autostart: false
-            //    }
-            //});
-            //
-            //displayPoints = $('.clockPoints').FlipClock(100, {
-            //    clockFace: 'Counter'
-            //});
-            //
-            //clock.stop();
-            commonFunctions.generateMaze();
-            //setTimeout(function () {
-            //    setInterval(function () {
-            //        displayPoints.setValue(gamePoints);
-            //    }, 1000);
-            //});
         });
     });

@@ -41,12 +41,12 @@ var sockets = function(server){
             socket.broadcast.emit('game:over', msg);
         });
 
-        socket.on('checkUser', function(name, callback){
-            userService.isUserValid(name, callback);
+        socket.on('checkUser', function(name, secret, callback){
+            userService.isUserValid(name, secret, callback);
         });
 
-        socket.on('addUser', function(name, callback){
-            userService.addUser( { "name" : name}, callback);
+        socket.on('addUser', function(name, secret, callback){
+            userService.addUser( { "name" : name, "secret" :secret}, callback);
         });
 
         socket.on('getUsers', function(callback){

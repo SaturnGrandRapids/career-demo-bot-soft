@@ -64,19 +64,19 @@ require(['jquery', 'socketio', 'flipclock', 'hammer', 'modernizr'],
 
             startGame: function () {
                 var player = gid('playerInfoBox').value;
-
-                if (player == "Enter Your Name Here" | "") {
-                    alert("Enter your name before starting");
+                var secret = gid('playerSecretBox').value;
+                if (player == "Enter Your Name Here" || player == "" || secret == "Enter Secret Word Here" || secret ==  "") {
+                    alert("Enter your name and secret word before starting");
                     return;
                 }
                 else {
                     //calling function on server and expecting callback
-                    console.log("hello" + player);
-                    socket.emit('checkUser', player, function (msg) {
-                        console.log("hello" + player);
+                    //We no longer care about duplicate names
+                    socket.emit('checkUser', player, secret, function (msg) {
+                        console.log("hello" + player + secret);
                         if (msg) {
                             //call add user message and move on
-                            socket.emit('addUser', player, function (err, msg) {
+                            socket.emit('addUser', player, secret, function (err, msg) {
                                 if (err == null) {
                                     //we don't have an error, so let's rock!!!
                                     //set to local storage and head to the maze
@@ -88,7 +88,12 @@ require(['jquery', 'socketio', 'flipclock', 'hammer', 'modernizr'],
                             });
                         }
                         else {
-                            alert('Sorry, the name: "' + player + '" is already taken!');
+                            //We no longer have a problem if someone is rejoining , so let's rock!!!
+                            //TODO: could add a welcome back your previous high score is xxx if same user / secret
+                            //set to local storage and head to the maze
+                            localStorage.setItem('user', msg);
+                            window.location.href = 'maze';
+
                         }
                     });
                 }
@@ -115,171 +120,9 @@ require(['jquery', 'socketio', 'flipclock', 'hammer', 'modernizr'],
 
         }
 
-
-        var move = {
-
-            "left": function () {
-
-                var y = document.getElementsByClassName('cur1');
-                if (y[0].classList.contains('w')) {
-                    gamePoints--;
-                    gameMoves++;
-                    var x = y[0].previousSibling;
-                    y[0].classList.remove('cur1');
-                    x.classList.add('cur1');
-                    if (x.classList.contains('finish')) {
-                        commonFunctions.generateMaze();
-                    }
-                }
-
-                return true;
-
-
-            },
-
-            "up": function () {
-                var y = document.getElementsByClassName('cur1');
-                if (y[0].classList.contains('n')) {
-                    gamePoints--;
-                    gameMoves++;
-                    y[0].parentNode.previousSibling.cells[y[0].cellIndex].classList.add('cur1');
-
-                    y[1].classList.remove('cur1');
-                    if (y[0].classList.contains('finish')) {
-                        commonFunctions.generateMaze();
-                    }
-                }
-                return true;
-            },
-
-            "down": function () {
-                var y = document.getElementsByClassName('cur1');
-                if (y[0].classList.contains('s')) {
-                    gamePoints--;
-                    gameMoves++;
-                    y[0].parentNode.nextSibling.cells[y[0].cellIndex].classList.add('cur1');
-                    y[0].classList.remove('cur1');
-                    if (y[0].classList.contains('finish')) {
-                        commonFunctions.generateMaze();
-                    }
-
-                }
-                return true;
-            },
-
-            "right": function () {
-                var y = document.getElementsByClassName('cur1');
-                if (y[0].classList.contains('e')) {
-                    gamePoints--;
-                    gameMoves++;
-                    var x = y[0].nextSibling;
-                    y[0].classList.remove('cur1');
-                    x.classList.add('cur1');
-                    if (x.classList.contains('finish')) {
-                        commonFunctions.generateMaze();
-                    }
-                }
-                return true;
-            }
-        };
-
-
-        function next(elem) {
-            do {
-                elem = elem.nextSibling;
-            } while (elem && elem.nodeType !== 1);
-            return elem;
-        }
-
-        function ce(tag, txt) {
-            var x = document.createElement(tag);
-            if (txt !== undefined) x.innerHTML = txt;
-            return x
-        }
-
         function gid(e) {
             return document.getElementById(e)
         }
-
-        function irand(x) {
-            return Math.floor(Math.random() * x)
-        }
-
-        function make_maze(w, h) {
-            //var w = parseInt(gid('rows').value || 8, 10);
-            //var h = parseInt(gid('cols').value || 8, 10);
-
-
-            var tbl = gid('maze');
-
-
-            tbl.innerHTML = '';
-            if (tbl.classList.contains('flipped')) {
-                tbl.classList.remove('flipped');
-            }
-            else {
-                tbl.classList.add('flipped');
-            }
-
-            tbl.add('tr', h);
-            tbl.childNodes.map(function (x) {
-                x.add('th', 1);
-                x.add('td', w, '*');
-                x.add('th', 1)
-            });
-            tbl.ins('tr');
-            tbl.add('tr', 1);
-            tbl.firstChild.add('th', w + 2);
-            tbl.lastChild.add('th', w + 2);
-            for (var i = 1; i <= h; i++) {
-                for (var j = 1; j <= w; j++) {
-                    tbl.kid(i).kid(j).neighbors = [
-                        tbl.kid(i + 1).kid(j),
-                        tbl.kid(i).kid(j + 1),
-                        tbl.kid(i).kid(j - 1),
-                        tbl.kid(i - 1).kid(j)
-                    ];
-                }
-            }
-            walk(tbl.kid(irand(h) + 1).kid(irand(w) + 1));
-            tbl.rows[h].cells[w].textContent = "END";
-            tbl.rows[h].cells[w].className += ' finish';
-            tbl.rows[1].cells[1].className += ' cur1';
-
-            gid('solve').style.display = 'inline';
-            document.onkeydown = function (ev) {
-                keyMove(ev);
-            };
-            //tbl.className += ' flipped';
-
-
-        }
-
-        function shuffle(x) {
-            for (var i = 3; i > 0; i--) {
-                j = irand(i + 1);
-                if (j == i) continue;
-                var t = x[j];
-                x[j] = x[i];
-                x[i] = t;
-            }
-            return x;
-        }
-
-        var dirs = ['s', 'e', 'w', 'n'];
-
-        function walk(c) {
-            c.innerHTML = '&nbsp;';
-            var idx = shuffle([0, 1, 2, 3]);
-            for (var j = 0; j < 4; j++) {
-                var i = idx[j];
-                var x = c.neighbors[i];
-                if (x.textContent != '*') continue;
-                c.cls(dirs[i]), x.cls(dirs[3 - i]);
-                walk(x);
-            }
-        }
-
 
         function startNewGame() {
 
