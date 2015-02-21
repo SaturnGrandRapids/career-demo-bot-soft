@@ -454,6 +454,14 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
 
         $(document).ready(function () {
 
+            if (sessionStorage.getItem('user')==null) {
+                alert('Sorry you need to log in');
+                window.location.href = '/';
+
+            }
+            console.log(document.getElementById("playerInfoBox").innerHTML);
+            document.getElementById("playerInfoBox").innerHTML="<br>Now Playing:    " +sessionStorage.user;
+            //playerInfoBox.setValue(sessionStorage.getItem('user'));
             //add start and quit handlers
             $('#startbutton').click(function(){
                 commonFunctions.startGame();

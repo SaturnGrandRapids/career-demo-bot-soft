@@ -65,6 +65,7 @@ require(['jquery', 'socketio', 'flipclock', 'hammer', 'modernizr'],
             startGame: function () {
                 var player = gid('playerInfoBox').value;
                 var secret = gid('playerSecretBox').value;
+
                 if (player == "Enter Your Name Here" || player == "" || secret == "Enter Secret Word Here" || secret ==  "") {
                     alert("Enter your name and secret word before starting");
                     return;
@@ -80,7 +81,7 @@ require(['jquery', 'socketio', 'flipclock', 'hammer', 'modernizr'],
                                 if (err == null) {
                                     //we don't have an error, so let's rock!!!
                                     //set to local storage and head to the maze
-                                    localStorage.setItem('user', msg);
+                                    sessionStorage.setItem('user', player);
                                     window.location.href = 'maze';
                                 }
                                 else
@@ -92,11 +93,13 @@ require(['jquery', 'socketio', 'flipclock', 'hammer', 'modernizr'],
                                 //We no longer have a problem if someone is rejoining , so let's rock!!!
                                 //TODO: could add a welcome back your previous high score is xxx if same user / secret
                                 alert('Oops, Player: "' + player + '" is already taken & the Secret Word does not match!');
+                                sessionStorage.setItem('user', "ErrorUser");
+
                                 return;
                             }
                             else{
 //                                alert('Welcome Back ' + player);
-                                localStorage.setItem('user', msg);
+                                sessionStorage.setItem('user', player);
                                 window.location.href = 'maze';
 
                             }

@@ -34,7 +34,7 @@
                    <a id="startbutton" href="#">Start</a>
                     <br>
 
-                    <br><p>    <b>NOTE:</b> Your *Secret* word is used to avoid duplicate names and allow winners to claim prizes, use the same word each time you log in</p>
+                    <br><p>    <b>NOTE:</b> Your *Secret* word is used as validation when winners to claim prizes, use the same word each time you log in.</p>
                 </div>
             </div>
         </div>

@@ -26,8 +26,9 @@
                    <a id="startbutton" href="#">Play</a>
                    <a id="quitbutton" href="/">Quit</a>
 
-                    <text type="text" id="playerInfoBox" name="playerName" class="playerNameClass"
-                        maxlength="20" value="hello">
+                    <div type="text" id="playerInfoBox" name="playerName" class="playerNameClass"
+                        maxlength="20" >
+                        xxx</div>
                 </div>
             </div>
             <div align=center data-role="content">
