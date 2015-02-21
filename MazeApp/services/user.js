@@ -22,14 +22,24 @@ var userService = function () {
      */
     var isUserValid = function (user, secret, fn) {
         console.log("Need to check the user here " + user + secret);
-        db.Users.findOne({name: user, secret:secret}, function (err, data) {
+        db.Users.findOne({name: user}, function (err, data) {
             // docs is an array of all the documents in mycollection
-            if (data == null) {
-                fn(true);
-            }
-            else {
-                console.log("got one of these already, but that's ok ");
-                fn(false);
+            //return values of ReturningUser (where name and secret match), ErrorUser (where name exists but secret is wrong), or NewUser(where username doesn't exist)  
+            if (data == null) { // user name not found
+                    fn("NewUser");
+                    console.log("NewUser - have not seen this name before");
+                }
+            else {  //Username found
+                db.Users.findOne({name: user, secret:secret}, function (err, data) {
+                    if (data == null) {  //username found but secret doesn't match
+                        console.log("ErrorUser - got one of these names already, but secret doesn't match ");
+                        fn("ErrorUser");
+                    }
+                    else {
+                        console.log("ReturningUser - got one of these already, but that's ok ");
+                        fn("ReturningUser");
+                    }
+                });
             }
         });
     };
