@@ -43,6 +43,39 @@ define(['react', 'socketio'], function(React, io){
             }
         });
 
+        var renderEntry = function(entry) {
+            return (
+                <div>FAKED ROW</div>
+            )
+        };
+
+
+        var LeaderBoardView = React.createClass({
+            getInitialState: function(){
+                var that = this;
+
+                var dummyRows = ["Dummy1", "Dummy2"];
+
+                socket.on('leaders:alltime', function (msg) {
+                    that.state.allTimeLeaders = msg.allTimeLeaders;
+                    that.setState();
+                });
+
+                return{allTimeLeaders: dummyRows};
+            },
+
+            render: function(){
+                return(
+                    <div>
+                        FIX ME ONCE SERVICE RETURNS VALUES
+                        {this.state.allTimeLeaders.length > 0 ? this.state.allTimeLeaders.map(renderEntry) : "No data"}
+                    </div>
+            );
+        }
+
+
+        });
+
         var SummaryView = React.createClass({
             getInitialState: function(){
                 var that = this;
@@ -51,16 +84,24 @@ define(['react', 'socketio'], function(React, io){
                     that.state.roundLeaders = msg.roundLeaders;
                     that.setState();
                 });
-                socket.on('leaders:alltime', function (msg) {
-                    that.state.allTimeLeaders = msg.allTimeLeaders;
-                    that.setState();
-                });
+
                 return {currentRound: 1, roundLeaders: [], allTimeLeaders: []};
             },
             render: function(){
-               return(
-                   <div className="col-1-4">summary to be filled in further</div>
-               );
+                return(
+                    <div>SUMMARIES
+                        <div className="summarySection">
+                            <div className="summarySectionTitle">Current Round Leaders (temp: really just all)</div>
+                        </div>
+                        <div className="summarySection">
+                            <div className="summarySectionTitle">Previous Round Winners (temp: really just all)</div>
+                        </div>
+                        <div className="summarySection">
+                            <div className="summarySectionTitle">Overall Leaders</div>
+                            <LeaderBoardView/>
+                        </div>
+                    </div>
+                );
             }
         });
 

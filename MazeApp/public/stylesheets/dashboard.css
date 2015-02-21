@@ -61,3 +61,14 @@ td.cur {
 .finish {
     background: darkcyan;
 }
+
+.summarySection{
+    /*currently just setup for debugging, needs real styling*/
+    border-style:solid;
+    border-color:red;
+}
+
+.summarySectionTitle{
+    font-size:large;
+
+}
