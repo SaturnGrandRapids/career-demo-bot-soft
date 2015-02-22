@@ -19,6 +19,10 @@ function gameService() {
         })
     };
 
+    /**
+     * Ends all games that are stale in the system
+     * @param callback
+     */
     var prune = function(callback){
         var subtractMinutes = function(d, minutes){
             var millisecondsInMinute = 60000;
@@ -27,7 +31,7 @@ function gameService() {
         db.Games.find({
             runTime: runTime.runTimeId,
             status: 'running',
-            startTime: {$lt:subtractMinutes(Date.now(), 3)}
+            startTime: {$lt:subtractMinutes(Date.now(), 3)} //here is where we determine what stale is
         }).forEach(function(err, data){
             if(data){
                 endGame(data, callback);
@@ -76,9 +80,8 @@ function gameService() {
 
     /**
      * Updates the final score of a finished game
-     * @param game
+     * @param game - data used to update
      * @param callback
-     * @constructor
      */
     var endGame = function (game, callback) {
         game.status = 'over';
@@ -87,8 +90,7 @@ function gameService() {
 
     /**
      * Gets all the currently running games
-     * @returns {*}
-     * @constructor
+     * @param callback
      */
     var getCurrentRunningGames = function (callback) {
         getCurrentRound(function (err, data) {
@@ -104,9 +106,37 @@ function gameService() {
     };
 
     /**
+     * Gets the round leaders for the given round
+     * @param take - optional - how many to return
+     * @param round - optional - which round. defaults to current
+     * @param callback
+     */
+    var getRoundLeaders = function(take ,round, callback){
+        if(take == null || typeof take !== 'number'){
+            take = 5;
+        }
+        if(round == null || typeof round !== 'number'){
+            //if we don't have a round provided, assume the current
+            getCurrentRound(function(err, data){
+                if(err != null)
+                    callback(err, data);
+                getRoundLeaders(take, data, callback);
+            });
+        }
+        else{
+            db.Games.find({
+                runtime: runTime.runTimeId,
+                round: round,
+                status: 'running'
+            }).sort(
+                {points : -1} //desc
+            ).take(take, callback);
+        }
+    }
+
+    /**
      * Gets all of the games from this runtime
      * @param callback
-     * @constructor
      */
     var getAllGames = function (callback) {
         db.Games.find({runTime: runTime.runTimeId}, callback);

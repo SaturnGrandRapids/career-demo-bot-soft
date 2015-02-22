@@ -28,7 +28,6 @@ var sockets = function(server){
 
         /**
          * Handler for game initiation
-         *
          */
         socket.on('game:start', function(msg, callback){
             console.log('Game starting for user ' + socket.id );
@@ -67,10 +66,27 @@ var sockets = function(server){
         });
 
         /**
-         *
+         * Increments the current round
          */
         socket.on('round:increment', function(msg){
+            gameService.incrementRound(function(err, data){
+                if(err == null)
+                    socket.broadcast.emit('round:increment');
+            });
+        });
 
+        /**
+         * Returns the current round
+         */
+        socket.on('round:getCurrent', function(msg, callback){
+            gameService.getCurrentRound(callback);
+        });
+
+        /**
+         * Gets round leaders
+         */
+        socket.on('round:getLeaders', function(msg, callback){
+           gameService.getRoundLeaders(msg.take, msg.round, callback);
         });
 
         socket.on('checkUser', function(name, secret, callback){
