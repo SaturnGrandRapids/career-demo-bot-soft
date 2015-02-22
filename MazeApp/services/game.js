@@ -90,7 +90,7 @@ function gameService() {
         db.Games.findAndModify(
             {
                 query: {_id: mongojs.ObjectId(game._id)},
-                update: {$set: {status: 'over'}},
+                update: {$set: {points: game.points, status: 'over'}},
                 new: true
             }, callback);
     };

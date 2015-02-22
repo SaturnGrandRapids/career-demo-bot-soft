@@ -6,7 +6,6 @@ define(['react', 'socketio'], function (React, io) {
 
         var RoundDropdownView = React.createClass({
             onRoundSelected: function(e){
-                e.disable()
                 this.props.games = this.props.rounds[this.props.visibleRound];
             },
             render: function () {
