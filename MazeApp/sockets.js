@@ -30,9 +30,7 @@ var sockets = function(server){
          * Handler for game initiation
          */
         socket.on('game:start', function(msg, callback){
-            console.log('Game starting for user ' + socket.id );
-            //TODO:this is the unreadable username...don't think we want this (but we also don't want the entire msg added to the game record
-            gameService.StartGame(msg.username,function(err, data){
+            gameService.StartGame(msg,function(err, data){
                 if(!err) {
                     socket.broadcast.emit('game:start', data);
                 }
@@ -46,16 +44,14 @@ var sockets = function(server){
          * Emit game event updates
          */
         socket.on('game:update', function(msg){
-            io.emit('game update', msg);
+            io.emit('game:update', msg);
         });
 
         /**
          * Emit game over update
          */
         socket.on('game:over', function(msg, callback){
-            console.log('Game over for user ' + socket.id );
-            //TODO: again do we really want unreadable username??
-            gameService.EndGame(msg.username,function(err, data){
+            gameService.EndGame(msg,function(err, data){
                 if(!err){
                     socket.broadcast.emit('game:over', data);
                 }
@@ -69,9 +65,9 @@ var sockets = function(server){
          * Increments the current round
          */
         socket.on('round:increment', function(msg){
-            gameService.incrementRound(function(err, data){
+            gameService.IncrementRound(function(err, data){
                 if(err == null)
-                    socket.broadcast.emit('round:increment');
+                    io.emit('round:increment');
             });
         });
 
@@ -79,14 +75,21 @@ var sockets = function(server){
          * Returns the current round
          */
         socket.on('round:getCurrent', function(msg, callback){
-            gameService.getCurrentRound(callback);
+            gameService.GetCurrentRound(callback);
         });
 
         /**
          * Gets round leaders
          */
         socket.on('round:getLeaders', function(msg, callback){
-           gameService.getRoundLeaders(msg.take, msg.round, callback);
+           gameService.GetRoundLeaders(msg.take, msg.round, callback);
+        });
+
+        /**
+         * Gets all games by points descending
+         */
+        socket.on('round:getGames', function(msg, callback){
+            gameService.GetRoundGames(msg.round, callback);
         });
 
         socket.on('checkUser', function(name, secret, callback){
@@ -94,7 +97,7 @@ var sockets = function(server){
         });
 
         socket.on('addUser', function(name, secret, callback){
-            userService.addUser( { "name" : name, "secret" :secret}, callback);
+            userService.addUser( {"name" : name, "secret" :secret}, callback);
         });
 
         socket.on('getUsers', function(callback){

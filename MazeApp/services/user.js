@@ -44,13 +44,11 @@ var userService = function () {
         });
     };
 
-    var addUser = function (user, secret, callback) {
-        console.log("here we are in addUser function " + user);
-        db.Users.insert(user, secret, callback);
+    var addUser = function (msg, callback) {
+        db.Users.insert({name: msg.user, secret: msg.secret}, callback);
     };
 
     var getUsers = function (callback) {
-        console.log("here we are in getUsers function");
         return db.Users.find({}, callback);
     };
 

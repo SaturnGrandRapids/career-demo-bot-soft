@@ -9,10 +9,10 @@ define(['react', 'socketio'], function(React, io){
             getInitialState: function(){
                 var that = this;
                 //start getting updates
-                socket.on('game update', function (msg) {
+                socket.on('game:update', function (msg) {
                     var isUpdate = false;
                     that.state.games.forEach(function(game){
-                        if (game.username === msg.username) {
+                        if (game._id === msg._id) {
                             game.points = msg.points;
                             game.moves = msg.moves;
                             game.mazeHtml = msg.mazeHtml;

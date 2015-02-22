@@ -23,9 +23,10 @@ router.get('/hall', function(req, res, next) {
 });
 
 router.get('/admin', function(req, res, next){
-    //res.render('admin', {title: 'Administration'});
+    res.render('admin', {title: 'Administration'});
     //redirect to the MongoExpress admin page
-    res.redirect('http://localhost:8081/db/testData');
+    //TODO get your own route!!!!
+    // res.redirect('http://localhost:8081/db/testData');
 });
 
 module.exports = router;

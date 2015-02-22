@@ -1,6 +1,11 @@
 @html.extend('layout', function(model){
 
+    @html.block('headerStyle', function(model){
+        <link href="/stylesheets/grid.css" rel="stylesheet" />
+        <link href="/stylesheets/admin.css" rel="stylesheet" />
+    })
+
     @html.block('headerScript',function(model){
-    <script src="/javascripts/require.js" data-main="/javascripts/admin.js"></script>
+        <script src="/javascripts/require.js" data-main="/javascripts/admin.js"></script>
     })
 })

@@ -81,7 +81,7 @@ require(['jquery', 'socketio', 'flipclock', 'hammer', 'modernizr'],
                                 if (err == null) {
                                     //we don't have an error, so let's rock!!!
                                     //set to local storage and head to the maze
-                                    sessionStorage.setItem('user', player);
+                                    sessionStorage.setItem('user', JSON.stringify({name: player, secret: secret}));
                                     window.location.href = 'maze';
                                 }
                                 else
@@ -99,7 +99,7 @@ require(['jquery', 'socketio', 'flipclock', 'hammer', 'modernizr'],
                             }
                             else{
 //                                alert('Welcome Back ' + player);
-                                sessionStorage.setItem('user', player);
+                                sessionStorage.setItem('user', JSON.stringify({name: player, secret: secret}));
                                 window.location.href = 'maze';
 
                             }

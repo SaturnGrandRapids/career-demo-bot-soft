@@ -63,6 +63,7 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
         var gameMoves = 0;
 //start the Clock
 
+        var currentGame = null;
         var commonFunctions = {
 
             startGame: function () {
@@ -86,13 +87,10 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
                 else {
                     tbl.classList.add('flipped');
                 }
-                socket.emit('game:over', {
-                    username: socket.id,
-                    points: gamePoints,
-                    moves: gameMoves,
-                    mazeHtml: gid('maze').outerHTML,
-                    playerName: gid('playerInfoBox').value
-                });
+                if(currentGame){
+                    socket.emit('game:over', currentGame);
+                    currentGame = null;
+                }
             },
             buildGameTable: function () {
                 gameTable = {
@@ -339,45 +337,32 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
             }
             switch (ev.keyCode) {
                 case 37: /* left */
-
                     move.left();
-                    socket.emit('game update', {
-                        username: socket.id,
-                        points: gamePoints,
-                        moves: gameMoves,
-                        mazeHtml: gid('maze').outerHTML,
-                        playerName: gid('playerInfoBox').value
-                    });
+                    currentGame.points = gamePoints;
+                    currentGame.moves = gameMoves;
+                    currentGame.mazeHtml = gid('maze').outerHTML;
+                    socket.emit('game:update', currentGame);
                     return false;
                 case 38: /* up */
                     move.up();
-                    socket.emit('game update', {
-                        username: socket.id,
-                        points: gamePoints,
-                        moves: gameMoves,
-                        mazeHtml: gid('maze').outerHTML,
-                        playerName: gid('playerInfoBox').value
-                    });
+                    currentGame.points = gamePoints;
+                    currentGame.moves = gameMoves;
+                    currentGame.mazeHtml = gid('maze').outerHTML;
+                    socket.emit('game:update', currentGame);
                     return false;
                 case 39: /* right */
                     move.right();
-                    socket.emit('game update', {
-                        username: socket.id,
-                        points: gamePoints,
-                        moves: gameMoves,
-                        mazeHtml: gid('maze').outerHTML,
-                        playerName: gid('playerInfoBox').value
-                    });
+                    currentGame.points = gamePoints;
+                    currentGame.moves = gameMoves;
+                    currentGame.mazeHtml = gid('maze').outerHTML;
+                    socket.emit('game:update', currentGame);
                     return false;
                 case 40: /* down */
                     move.down();
-                    socket.emit('game update', {
-                        username: socket.id,
-                        points: gamePoints,
-                        moves: gameMoves,
-                        mazeHtml: gid('maze').outerHTML,
-                        playerName: gid('playerInfoBox').value
-                    });
+                    currentGame.points = gamePoints;
+                    currentGame.moves = gameMoves;
+                    currentGame.mazeHtml = gid('maze').outerHTML;
+                    socket.emit('game:update', currentGame);
                     return false;
                 default:
                     //   log("interaction", "Key press: %d", ev.keyCode);
@@ -419,12 +404,15 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
             gestures.get('swipe').set({direction: Hammer.DIRECTION_ALL, threshold: 2, velocity: 0.3});
             gestures.on("swipeleft swiperight swipeup swipedown tap press", captureGesture);
 
+            var currentUser = JSON.parse(sessionStorage.getItem('user'));
+
             socket.emit('game:start', {
-                username: socket.id,
-                points: gamePoints,
-                moves: gameMoves,
-                mazeHtml: gid('maze').outerHTML,
-                playerName: gid('playerInfoBox').value
+                userName: currentUser.name,
+                secret: currentUser.secret
+            }, function(err, data){
+                if(err == null){
+                    currentGame = data;
+                }
             });
 
             clock = $('.clockCountDown').FlipClock(120, {
@@ -466,7 +454,8 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
                 commonFunctions.startGame();
             });
             $('#quitbutton').click(function(){
-                commonFunctions.endGame()
+                commonFunctions.endGame();
+                window.location.href = '/';
             });
             gamePoints = 1000;
             gameLevel = 0;
