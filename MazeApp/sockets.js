@@ -61,6 +61,9 @@ var sockets = function(server){
             });
         });
 
+        /**
+         * Awards the prize to a particlar user
+         */
         socket.on('game:awardPrize', function(msg, callback){
             gameService.AwardPrize(msg,function(err, data){
                 if(!err){

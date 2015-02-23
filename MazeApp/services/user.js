@@ -11,49 +11,77 @@
 
 
 var db = require('./database.js');
+var runTime = require('../config/runTime');
 
 var userService = function () {
 
     /**
      * return true if the user is NOT found in the database
      * note this is an async routine
-     * @param user
-     * @param fn
+     * @param user - username of the user to check
+     * @param secret - the secret word of the user to check
+     * @param callback
      */
-    var isUserValid = function (user, secret, fn) {
-        console.log("Need to check the user here " + user + secret);
-        db.Users.findOne({name: user}, function (err, data) {
-            // docs is an array of all the documents in mycollection
-            //return values of ReturningUser (where name and secret match), ErrorUser (where name exists but secret is wrong), or NewUser(where username doesn't exist)  
+    var isUserValid = function (user, secret, callback) {
+        getUser(user, function (err, data) {
+            if (err != null) {
+                fn(err, data);
+            }
             if (data == null) { // user name not found
-                    fn("NewUser");
-                    console.log("NewUser - have not seen this name before");
-                }
+                callback(err, {IsNew: true, IsValid: true});
+            }
             else {  //Username found
-                db.Users.findOne({name: user, secret:secret}, function (err, data) {
-                    if (data == null) {  //username found but secret doesn't match
-                        console.log("ErrorUser - got one of these names already, but secret doesn't match ");
-                        fn("ErrorUser");
-                    }
-                    else {
-                        console.log("ReturningUser - got one of these already, but that's ok ");
-                        fn("ReturningUser");
-                    }
-                });
+                if(data.secret === secret){
+                    callback(err, {IsNew: false, IsValid: false});
+                }
+                else{
+                    callback(err, {IsNew: false, IsValid: true});
+                }
             }
         });
     };
 
+
+    /**
+     * Gets a user based on the current runtime and the provided username
+     * @param userName
+     * @param callback
+     */
+    var getUser = function (userName, callback) {
+        db.Users.findOne({
+            runtime: runTime.runTimeId,
+            name: userName
+        }, callback);
+    }
+
+    /**
+     * Adds a user with a given user and secret
+     * @param msg
+     * @param callback
+     */
     var addUser = function (msg, callback) {
-        db.Users.insert({name: msg.user, secret: msg.secret}, callback);
+        db.Users.insert({
+            name: msg.user,
+            secret: msg.secret,
+            runtime: runTime.runTimeId
+        }, callback);
     };
 
+    /**
+     * Gets all users associated with the current runtime
+     * @param callback
+     * @returns {*}
+     */
     var getUsers = function (callback) {
-        return db.Users.find({}, callback);
+        return db.Users.find({
+            runtime: runTime.runTimeId
+        }, callback);
     };
+
 
     return {
         getUsers: getUsers,
+        getUser: getUser,
         addUser: addUser,
         isUserValid: isUserValid
     };

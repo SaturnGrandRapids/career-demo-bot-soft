@@ -73,9 +73,13 @@ require(['jquery', 'socketio', 'flipclock', 'hammer', 'modernizr'],
                 else {
                     //calling function on server and expecting callback
                     //We no longer care about duplicate names
-                    socket.emit('checkUser', player, secret, function (msg) {
-                        console.log("hello" + player + secret + msg );
-                        if (msg == "NewUser") {
+                    socket.emit('checkUser', player, secret, function (err, msg) {
+                        if(err != null){
+                            alert('Something went wrong...');
+                            return;
+                        }
+
+                        if (msg.IsNew) {
                             //call add user message and move on
                             socket.emit('addUser', player, secret, function (err, msg) {
                                 if (err == null) {
@@ -89,13 +93,11 @@ require(['jquery', 'socketio', 'flipclock', 'hammer', 'modernizr'],
                             });
                         }
                         else {
-                            if (msg == "ErrorUser") {
+                            if (!msg.IsValid) {
                                 //We no longer have a problem if someone is rejoining , so let's rock!!!
                                 //TODO: could add a welcome back your previous high score is xxx if same user / secret
                                 alert('Oops, Player: "' + player + '" is already taken & the Secret Word does not match!');
                                 sessionStorage.setItem('user', "ErrorUser");
-
-                                return;
                             }
                             else{
 //                                alert('Welcome Back ' + player);
