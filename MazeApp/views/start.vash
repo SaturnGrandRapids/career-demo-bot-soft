@@ -29,12 +29,11 @@
                         maxlength="20" value="Enter Secret Word Here" 2 onblur="if(this.value.length == 0) this.value='Enter Secret Word Here';" onclick="if(this.value == 'Enter Secret Word Here') this.value='';" />
                    <br>
                    <br>
-                   <br>
 
                    <a id="startbutton" href="#">Start</a>
                     <br>
 
-                    <br><p>    <b>NOTE:</b> Your *Secret* word is used as validation when winners to claim prizes, use the same word each time you log in.</p>
+                    <br><p>    <b>NOTE:</b> Your *Secret* word is used as validation when claiming prizes. Use the same word each time you log in.</p>
                 </div>
             </div>
         </div>

@@ -43,7 +43,7 @@ define(['react', 'socketio'], function (React, io) {
                     return (
                         <div className="grid">
                             <div className="col-1-4">{game.userName}</div>
-                            <div className="col-1-4">{game.secretName}</div>
+                            <div className="col-1-4">{game.secret}</div>
                             <div className="col-1-4">{game.points}</div>
                             <div className="col-1-4">{renderPrizeAwarded(game.prizeAwarded)}</div>
                         </div>
@@ -56,7 +56,7 @@ define(['react', 'socketio'], function (React, io) {
                             <div className="col-1-4">UserName</div>
                             <div className="col-1-4">Secret</div>
                             <div className="col-1-4">Score</div>
-                            <div className="col-1-4">UserName</div>
+                            <div className="col-1-4">Prize Awarded</div>
                         </div>
                         {this.props.games.map(renderGame)}
                     </div>

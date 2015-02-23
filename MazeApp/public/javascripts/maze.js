@@ -39,20 +39,20 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
         Node.prototype.add = function (tag, cnt, txt) {
             for (var i = 0; i < cnt; i++)
                 this.appendChild(ce(tag, txt));
-        }
+        };
         Node.prototype.ins = function (tag) {
             this.insertBefore(ce(tag), this.firstChild)
-        }
+        };
         Node.prototype.kid = function (i) {
             return this.childNodes[i]
-        }
+        };
         Node.prototype.cls = function (t) {
             this.className += ' ' + t
-        }
+        };
 
         NodeList.prototype.map = function (g) {
             for (var i = 0; i < this.length; i++) g(this[i]);
-        }
+        };
 
         var clock;
         var displayPoints;
@@ -125,12 +125,12 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
 
                 gameLevel++;
                 make_maze(gameTable.level[gameLevel].row, gameTable.level[gameLevel].column);
-                gamePoints += gameLevel * 1000
+                gamePoints += gameLevel * 1000;
                 //gameMoves = 0;
             }
 
 
-        }
+        };
 
 
         var move = {
@@ -405,7 +405,7 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
             gestures.on("swipeleft swiperight swipeup swipedown tap press", captureGesture);
 
             var currentUser = JSON.parse(sessionStorage.getItem('user'));
-
+            
             socket.emit('game:start', {
                 userName: currentUser.name,
                 secret: currentUser.secret
@@ -446,8 +446,9 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
                 window.location.href = '/';
 
             }
-            console.log(document.getElementById("playerInfoBox").innerHTML);
-            document.getElementById("playerInfoBox").innerHTML="<br>Now Playing:    " +sessionStorage.user;
+            var curUser = JSON.parse(sessionStorage.getItem('user'));
+            document.getElementById("playerInfoBox").innerHTML = "<br><b>Now Playing:</b>    " + curUser.name + "    (NOTE: Remove secret):  " + curUser.secret;
+
             //playerInfoBox.setValue(sessionStorage.getItem('user'));
             //add start and quit handlers
             $('#startbutton').click(function(){
