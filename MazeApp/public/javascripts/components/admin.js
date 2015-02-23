@@ -6,13 +6,18 @@ define(['react', 'socketio'], function (React, io) {
 
         var RoundDropdownView = React.createClass({
             onRoundSelected: function(e){
-                this.props.games = this.props.rounds[this.props.visibleRound];
+                this.props.onRoundSelected(e.target.value);
             },
             render: function () {
                 var createRoundArrayFromCurrent = function(currentRound){
                     var newArray = [];
                     for(var i = currentRound; i > 0; i--){
-                        newArray.push({value:i, text: 'Round ' + i});
+                        if(i == currentRound){
+                            newArray.push({value:i, text: 'Round ' + i + ' (Current)'});
+                        }
+                        else{
+                            newArray.push({value:i, text: 'Round ' + i});
+                        }
                     }
                     return newArray;
                 };
@@ -32,20 +37,31 @@ define(['react', 'socketio'], function (React, io) {
         });
 
         var GameListView = React.createClass({
+            onAwardPrize: function(game, index){
+                var that = this;
+                socket.emit('game:awardPrize', game, function(err, data){
+                   if(err == null){
+                       that.props.games[index] = data;
+                       that.forceUpdate();
+                   }
+                });
+            },
             render: function () {
-
-                var renderGame= function(game){
-
-                    var renderPrizeAwarded = function(hasBeenAwarded){
-                        return hasBeenAwarded ? 'Awarded' : 'Not Awarded';
-                    }
-
+                var that = this;
+                var renderGame= function(game, index){
+                    var renderPrizeAwarded = function(game){
+                        return game.prizeAwarded ? 'Awarded' : (
+                            <a href='#' onClick={that.onAwardPrize.bind(that, game, index)}>
+                                Click When Awarded
+                            </a>
+                        );
+                    };
                     return (
                         <div className="grid">
                             <div className="col-1-4">{game.userName}</div>
                             <div className="col-1-4">{game.secret}</div>
                             <div className="col-1-4">{game.points}</div>
-                            <div className="col-1-4">{renderPrizeAwarded(game.prizeAwarded)}</div>
+                            <div className="col-1-4">{renderPrizeAwarded(game)}</div>
                         </div>
                     )
                 };
@@ -58,7 +74,7 @@ define(['react', 'socketio'], function (React, io) {
                             <div className="col-1-4">Score</div>
                             <div className="col-1-4">Prize Awarded</div>
                         </div>
-                        {this.props.games.map(renderGame)}
+                        {this.props.games.length > 0 ? this.props.games.map(renderGame) : ''}
                     </div>
                 );
             }
@@ -68,71 +84,82 @@ define(['react', 'socketio'], function (React, io) {
          * Represents the view of the games
          */
         var GamesView = React.createClass({
+            updateModel: function () {
+                var that = this;
+                socket.emit('round:getCurrent', {}, function (err, data) {
+                    if (err == null) {
+                        that.setState({currentRound: data}, function(err, data){
+                            //flip through all of the rounds and update
+                            //this gets weird thanks to closures within loops, so we have to loop twice
+                            //first loop builds functions and binds closure
+                            var updateRoundModelFunctions = [];
+                            for (var i = that.state.currentRound; i > 0; i--) {
+                                updateRoundModelFunctions[i] = (function(index){
+                                    return function() {
+                                        socket.emit('round:getGames', {round: index}, function (err, data) {
+                                            if (err != null) {
+                                                return;
+                                            }
+                                            else {
+                                                that.state.rounds[index] = data;
+                                                if (that.state.visibleRound == index) {
+                                                    that.state.games = data;
+                                                }
+                                                that.setState();
+                                            }
+                                        });
+                                    }
+                                }(i));
+                            }
+                            //second loop executes functions
+                            for (var j = that.state.currentRound; j > 0; j--){
+                                updateRoundModelFunctions[j]();
+                            }
+                        });
+                    }
+                });
+            },
             getInitialState: function () {
                 var that = this;
-                /**
-                 * Updates the view model by getting data from the server
-                 */
-                var updateModel = function () {
-                    socket.emit('round:getCurrent', {}, function (err, data) {
-                        if (err == null) {
-                            that.setState({currentRound: data}, function(err, data){
-                                //flip through all of the rounds and update
-                                for (var i = that.state.currentRound; i > 0; i--) {
-                                    var localIteration = i;
-                                    socket.emit('round:getGames', {round: i}, function (err, data) {
-                                        if (err != null) {
-                                            return;
-                                        }
-                                        else {
-                                            that.state.rounds[localIteration] = data;
-                                            if(that.state.visibleRound === localIteration){
-                                                that.state.games = data;
-                                            }
-                                            that.setState();
-                                        }
-                                    });
-                                }
-                            });
-
-                        }
-                    });
-                };
-
                 //sign up for events we care about
                 socket.on('game:start', function (msg) {
-                    updateModel();
+                    that.updateModel();
                 });
                 socket.on('game:over', function (msg) {
-                    updateModel();
+                    that.updateModel();
                 });
                 socket.on('round:increment', function (msg) {
-                    updateModel();
+                    that.updateModel();
                 });
 
-                //initialize the current round 1 second after load
-                var round = 1;
-                setTimeout(function(){
-                    socket.emit('round:getCurrent', {}, function (err, data) {
-                        if (err == null){
-                            that.setState({currentRound: data});
-                            updateModel();
-                        }
-                    });
-                }, 1000);
-
-                return {currentRound: round, rounds: [], visibleRound: round, games: []};
+                return {currentRound: 1, rounds: [], visibleRound: 1, games: []};
+            },
+            componentDidMount: function(){
+                var that = this;
+                socket.emit('round:getCurrent', {}, function (err, data) {
+                    if (err == null){
+                        that.setState({currentRound: data});
+                        that.updateModel();
+                    }
+                });
             },
             incrementRound: function(){
                 socket.emit('round:increment');
+            },
+            onRoundSelected: function(val){
+                this.state.visibleRound = val;
+                if(typeof this.state.rounds[val] === 'undefined'){
+                    this.state.rounds[val] = [];
+                }
+                this.state.games = this.state.rounds[val];
+                this.setState();
             },
             render: function () {
                 return (
                     <div className="col-1-2">
                         <div className="grid">
                             <button onClick={this.incrementRound}>Add Round</button>
-                            <RoundDropdownView visibleRound={this.state.visibleRound} currentRound={this.state.currentRound}
-                                games={this.state.games} rounds={this.state.rounds}/>
+                            <RoundDropdownView visibleRound={this.state.visibleRound} currentRound={this.state.currentRound} onRoundSelected={this.onRoundSelected}/>
                             <GameListView games={this.state.games}/>
                         </div>
                     </div>

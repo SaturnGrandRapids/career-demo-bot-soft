@@ -61,6 +61,17 @@ var sockets = function(server){
             });
         });
 
+        socket.on('game:awardPrize', function(msg, callback){
+            gameService.AwardPrize(msg,function(err, data){
+                if(!err){
+                    socket.broadcast.emit('game:awardPrize', data);
+                }
+                if(typeof callback === 'function'){
+                    callback(err, data);
+                }
+            });
+        });
+
         /**
          * Increments the current round
          */

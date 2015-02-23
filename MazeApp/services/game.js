@@ -96,6 +96,20 @@ function gameService() {
     };
 
     /**
+     * Sets the prize awarded to true
+     * @param game
+     * @param callback
+     */
+    var awardPrize = function (game, callback) {
+        db.Games.findAndModify(
+            {
+                query: {_id: mongojs.ObjectId(game._id)},
+                update: {$set: {prizeAwarded: true}},
+                new: true
+            }, callback);
+    };
+
+    /**
      * Gets all the currently running games
      * @param callback
      */
@@ -137,7 +151,7 @@ function gameService() {
                 status: 'over'
             }).sort(
                 {points: -1} //desc
-            ).take(take, callback);
+            ).limit(take, callback);
         }
     };
 
@@ -178,6 +192,7 @@ function gameService() {
         GetRoundGames: getRoundGames,
         StartGame: startGame,
         EndGame: endGame,
+        AwardPrize: awardPrize,
         GetCurrentRunningGames: getCurrentRunningGames,
         GetAllGames: getAllGames,
         Prune: prune
