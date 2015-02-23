@@ -1,41 +1,57 @@
-define(['react', 'socketio'], function(React, io){
+define(['react', 'socketio'], function (React, io) {
 
-    function Dashboard(){
+    function Dashboard() {
 
         var socket = io();
 
         var GameSnapshotView = React.createClass({
 
-            getInitialState: function(){
+            getInitialState: function () {
                 var that = this;
                 //start getting updates
                 socket.on('game:update', function (msg) {
                     var isUpdate = false;
-                    that.state.games.forEach(function(game){
+                    that.state.games.forEach(function (game) {
                         if (game._id === msg._id) {
                             game.points = msg.points;
                             game.moves = msg.moves;
                             game.mazeHtml = msg.mazeHtml;
-                            game.playerName = msg.playerName
+                            game.userName = msg.userName;
                             isUpdate = true;
                         }
                     });
-                    if(!isUpdate)
+                    if (!isUpdate)
                         that.state.games.push(msg);
                     that.setState();
                 });
+                socket.on('game:over', function (msg) {
+                    for (var i = 0; i < that.state.games.length; i++) {
+                        if (that.state.games[i]._id === msg._id) {
+                            that.state.games.splice(i, 1);
+                        }
+                    }
+                    that.setState();
+                });
+
                 return {games: []};
             },
 
-            render: function(){
+            render: function () {
                 var that = this;
                 var count = 0;
-                var renderGame = function(game){
+                var renderGame = function (game) {
                     return (
-                        <div className="col-1-3" dangerouslySetInnerHTML={{__html: game.mazeHtml}}></div>
+                        <div className='col-1-3' >
+                            <div className='grid'>
+                                <div className='col-1-3'>{game.userName}</div>
+                                <div className='col-1-3'>Round {game.round}</div>
+                            </div>
+
+                            <div dangerouslySetInnerHTML={{__html: game.mazeHtml}}></div>
+                        </div>
                     )
                 };
-                return(
+                return (
                     <div className="grid">
                     {this.state.games.length > 0 ? this.state.games.map(renderGame) : "it's lonely..."}
                     </div>
@@ -43,7 +59,7 @@ define(['react', 'socketio'], function(React, io){
             }
         });
 
-        var renderEntry = function(entry) {
+        var renderEntry = function (entry) {
             return (
                 <div>FAKED ROW</div>
             )
@@ -51,7 +67,7 @@ define(['react', 'socketio'], function(React, io){
 
 
         var LeaderBoardView = React.createClass({
-            getInitialState: function(){
+            getInitialState: function () {
                 var that = this;
 
                 var dummyRows = ["Dummy1", "Dummy2"];
@@ -61,23 +77,23 @@ define(['react', 'socketio'], function(React, io){
                     that.setState();
                 });
 
-                return{allTimeLeaders: dummyRows};
+                return {allTimeLeaders: dummyRows};
             },
 
-            render: function(){
-                return(
+            render: function () {
+                return (
                     <div>
                         FIX ME ONCE SERVICE RETURNS VALUES
                         {this.state.allTimeLeaders.length > 0 ? this.state.allTimeLeaders.map(renderEntry) : "No data"}
                     </div>
-            );
-        }
+                );
+            }
 
 
         });
 
         var SummaryView = React.createClass({
-            getInitialState: function(){
+            getInitialState: function () {
                 var that = this;
                 socket.on('leaders:round', function (msg) {
                     that.state.round = msg.round;
@@ -87,8 +103,8 @@ define(['react', 'socketio'], function(React, io){
 
                 return {currentRound: 1, roundLeaders: [], allTimeLeaders: []};
             },
-            render: function(){
-                return(
+            render: function () {
+                return (
                     <div>SUMMARIES
                         <div className="summarySection">
                             <div className="summarySectionTitle">Current Round Leaders (temp: really just all)</div>
@@ -106,8 +122,8 @@ define(['react', 'socketio'], function(React, io){
         });
 
         this.DashboardView = React.createClass({
-            render: function(){
-                return(
+            render: function () {
+                return (
                     <div className="grid">
                         <div className="col-2-3">
                             <GameSnapshotView />
@@ -121,7 +137,7 @@ define(['react', 'socketio'], function(React, io){
         });
     }
 
-    Dashboard.prototype.init = function(){
+    Dashboard.prototype.init = function () {
         React.renderComponent(<this.DashboardView />, document.body)
     };
 
