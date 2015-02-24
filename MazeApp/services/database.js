@@ -7,7 +7,7 @@ module.exports = function(){
         //run any things here that need to happen when the db is created
         //some ideas would be building indexes and initializing data
         db.createCollection('Users');
-        db.Users.ensureIndex({name: 1});
+        db.Users.ensureIndex({name: 1, runtime: 1});
         db.createCollection('Games');
         db.Games.ensureIndex({
             runtime: 1,
