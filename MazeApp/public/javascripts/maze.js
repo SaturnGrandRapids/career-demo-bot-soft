@@ -84,7 +84,7 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr','bootstrap'],
             endGame: function () {
 
                 var tbl = gid('maze');
-                tbl.innerHTML = '<tr><td>Game Ended</td></tr>';
+                tbl.innerHTML = '<tr><td style="color:white;font-size:x-large;padding-left:10%" >Game Ended Try Again...</td></tr>';
                 if (tbl.classList.contains('flipped')) {
                     tbl.classList.remove('flipped');
                 }
