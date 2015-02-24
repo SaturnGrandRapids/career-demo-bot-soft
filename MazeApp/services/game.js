@@ -27,16 +27,19 @@ function gameService() {
     var prune = function (callback) {
         var subtractMinutes = function (d, minutes) {
             var millisecondsInMinute = 60000;
+            console.log("minutes: " +minutes);
             return new Date(d.valueOf() - (minutes * millisecondsInMinute));
         }
+        console.log("in prune" + runTime.runTimeId);
         db.Games.find({
-            runTime: runTime.runTimeId,
+            runtime: runTime.runTimeId,
             status: 'running',
             startTime: {$lt: subtractMinutes(Date.now(), 3)} //here is where we determine what stale is
         }).forEach(function (err, data) {
             if (!data) {
                 return;
             }
+            console.log("found one to end");
             endGame(data, callback);
         });
     }
