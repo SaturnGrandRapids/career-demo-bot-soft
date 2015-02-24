@@ -6,6 +6,7 @@
         <link href="/stylesheets/jquery.mobile-1.2.0.css" rel="stylesheet" />
         <link href="/stylesheets/jquery.mobile.structure-1.2.0.css" rel="stylesheet" />
         <link href="/stylesheets/jquery.mobile.theme-1.2.0.css" rel="stylesheet" />
+        <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" />
         <link href="/stylesheets/site.css" rel="stylesheet" />
         <link href="/stylesheets/flipclock.css" rel="stylesheet" />
         <link href="/stylesheets/start.css" rel="stylesheet" />
@@ -19,8 +20,11 @@
         <div data-role="page" data-theme="b">
             <div data-role="header">
                 <h1>The Amazing Maze Challenge</h1>
-                <a data-icon="help" align=right href="/help">Help</a>
-                <div align=left style="width:30%" id="playerInfo">
+                <br>
+                <div class="help1">
+                <a id="help" data-icon="help" class="btn  btn-info"  href="/help">Help</a>
+                </div>
+                <div style="width:30%" id="playerInfo">
                 <br>
 
                     <input type="text" id="playerInfoBox" name="playerName" class="playerNameClass"
@@ -30,7 +34,8 @@
                    <br>
                    <br>
 
-                   <a id="startbutton" href="#">Start</a>
+                   <a id="startbutton" class="btn  btn-primary" href="#">Start</a>
+
                     <br>
 
                     <br><p>    <b>NOTE:</b> Your *Secret* word is used as validation when claiming prizes. Use the same word each time you log in.</p>
