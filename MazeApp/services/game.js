@@ -27,10 +27,8 @@ function gameService() {
     var prune = function (callback) {
         var subtractMinutes = function (d, minutes) {
             var millisecondsInMinute = 60000;
-            console.log("minutes: " +minutes);
             return new Date(d.valueOf() - (minutes * millisecondsInMinute));
         }
-        console.log("in prune" + runTime.runTimeId);
         db.Games.find({
             runtime: runTime.runTimeId,
             status: 'running',
@@ -39,7 +37,6 @@ function gameService() {
             if (!data) {
                 return;
             }
-            console.log("found one to end");
             endGame(data, callback);
         });
     }
@@ -78,7 +75,7 @@ function gameService() {
                 round: data,
                 points: 0,
                 status: 'running',
-                startTime: Date.now(),
+                startTime: new Date(Date.now()),
                 prizeAwarded: false
             }, callback);
         });

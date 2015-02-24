@@ -12,7 +12,6 @@ var sockets = function(server){
 
     //start the pruning function on an interval (10 sec)
     setInterval(function(){
-        console.log('In the Interval Timerxxx');
         gameService.Prune(function(err, data){
             if(!err){
                 io.emit('game:over', data);
