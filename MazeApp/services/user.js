@@ -61,7 +61,7 @@ var userService = function () {
      */
     var addUser = function (msg, callback) {
         db.Users.insert({
-            name: msg.user,
+            name: msg.name,
             secret: msg.secret,
             runtime: runTime.runTimeId
         }, callback);
