@@ -48,8 +48,8 @@
 
                        </div>
                        <div class="col-sm-offset-4">
-                           <a id="startbutton" class="btn  btn-primary btn-lg" href="#">Play</a>
-                           <a id="quitbutton" class="btn   btn-danger btn-lg" href="#">Quit</a>
+                           <a id="startbutton" class="btn  btn-primary btn-md" href="#">Play</a>
+                           <a id="quitbutton" class="btn   btn-danger btn-md" href="#">Quit</a>
                        </div>
                        <div type="text" id="playerInfoBox" name="playerName" class="playerNameClass"
                             maxlength="20">
