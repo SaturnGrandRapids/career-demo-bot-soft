@@ -10,7 +10,7 @@ function guid() {
 }
 
 module.exports = {
-    runTimeId: guid()
+    //runTimeId: guid()
     //Uncomment following and comment above to have the data the same between runs
-    // runTimeId: 'static'
+    runTimeId: 'static1'
 };

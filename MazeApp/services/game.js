@@ -30,7 +30,7 @@ function gameService() {
             return new Date(d.valueOf() - (minutes * millisecondsInMinute));
         }
         db.Games.find({
-            runTime: runTime.runTimeId,
+            runtime: runTime.runTimeId,
             status: 'running',
             startTime: {$lt: subtractMinutes(Date.now(), 3)} //here is where we determine what stale is
         }).forEach(function (err, data) {
@@ -75,7 +75,7 @@ function gameService() {
                 round: data,
                 points: 0,
                 status: 'running',
-                startTime: Date.now(),
+                startTime: new Date(Date.now()),
                 prizeAwarded: false
             }, callback);
         });
@@ -173,6 +173,22 @@ function gameService() {
     };
 
     /**
+     * Gets the top games from this runtime
+     * @param take - optional - how many to return default = 10
+     * @param callback
+     */
+    var getOverallLeaders = function (take, callback) {
+        if (take == null || typeof take !== 'number') {
+            getOverallLeaders(10, callback)
+        } else {
+            db.Games.find({
+                runtime: runTime.runTimeId
+            }).sort({points: -1}).limit(take, callback);
+        }
+    };
+
+
+    /**
      * Gets all of the games from this runtime
      * @param callback
      */
@@ -195,6 +211,7 @@ function gameService() {
         AwardPrize: awardPrize,
         GetCurrentRunningGames: getCurrentRunningGames,
         GetAllGames: getAllGames,
+        GetOverallLeaders: getOverallLeaders,
         Prune: prune
     }
 }

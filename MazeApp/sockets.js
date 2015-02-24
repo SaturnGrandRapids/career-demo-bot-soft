@@ -106,6 +106,10 @@ var sockets = function(server){
             gameService.GetRoundGames(msg.round, callback);
         });
 
+        socket.on('game:getOverallLeaders', function(msg, callback) {
+            gameService.GetOverallLeaders(msg.take, callback)
+        });
+
         socket.on('checkUser', function(name, secret, callback){
             userService.isUserValid(name, secret, callback);
         });
