@@ -455,7 +455,7 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr','bootstrap'],
 
             }
             var curUser = JSON.parse(sessionStorage.getItem('user'));
-            document.getElementById("playerInfoBox").innerHTML = "<br><b>Now Playing:</b>    " + curUser.name + "    (NOTE: Remove secret):  " + curUser.secret;
+            document.getElementById("playerInfoBox").innerHTML = "<br><b>Now Playing:</b>    " + curUser.name ;
 
             //playerInfoBox.setValue(sessionStorage.getItem('user'));
             //add start and quit handlers
