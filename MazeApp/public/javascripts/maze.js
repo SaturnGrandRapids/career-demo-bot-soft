@@ -18,6 +18,9 @@ require.config({
         },
         'hammer':{
             exports: 'Hammer'
+        },
+        'bootstrap': {
+            exports: 'BootStrap'
         }
     },
     paths: {
@@ -27,11 +30,12 @@ require.config({
         modernizr: 'lib/modernizr-2.6.2',
         flipclock: 'lib/flipclock.min',
         hammer: 'lib/hammer.min',
-        socketio: '../socket.io/socket.io'
+        socketio: '../socket.io/socket.io',
+        bootstrap: 'lib/bootstrap.min'
     }
 });
 
-require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
+require(['jquery','socketio','flipclock', 'hammer', 'modernizr','bootstrap'],
     function($, io, FlipClock,Hammer) {
 
         var socket = io();
@@ -263,7 +267,7 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr'],
             tbl.rows[h].cells[w].className += ' finish';
             tbl.rows[1].cells[1].className += ' cur1';
 
-            gid('solve').style.display = 'inline';
+            //gid('solve').style.display = 'inline';
             document.onkeydown = function (ev) {
                 keyMove(ev);
             };
