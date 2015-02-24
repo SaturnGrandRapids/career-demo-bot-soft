@@ -177,7 +177,6 @@ require(['jquery', 'socketio', 'flipclock', 'hammer', 'modernizr'],
                 commonFunctions.endGame()
             });
             $('input').bind('keypress',function (event){
-                console.log('dude pressed a button' + event.keyCode)
                 if (event.keyCode === 13){
                     window.location.href = '/maze';
                 }
