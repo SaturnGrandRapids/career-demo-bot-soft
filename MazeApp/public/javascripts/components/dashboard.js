@@ -59,9 +59,9 @@ define(['react', 'socketio'], function (React, io) {
             }
         });
 
-        var renderEntry = function (entry) {
+        var renderGame = function (game) {
             return (
-                <div>FAKED ROW</div>
+                <div>{game.userName} + {game.round} + {game.points}</div>
             )
         };
 
@@ -70,21 +70,35 @@ define(['react', 'socketio'], function (React, io) {
             getInitialState: function () {
                 var that = this;
 
-                var dummyRows = ["Dummy1", "Dummy2"];
-
-                socket.on('leaders:alltime', function (msg) {
-                    that.state.allTimeLeaders = msg.allTimeLeaders;
-                    that.setState();
+                socket.on('game:over', function () {
+                    socket.emit('game:getOverallLeaders', {take: 5}, function (err, data) {
+                        if (err == null){
+                            that.state.allTimeLeaders = data;
+                            that.setState();
+                        }
+                    });
                 });
 
-                return {allTimeLeaders: dummyRows};
+                return {allTimeLeaders: []};
+            },
+
+            componentDidMount: function() {
+                var that = this;
+
+                socket.emit('game:getOverallLeaders', {take: 5}, function (err, data) {
+                    if (err == null){
+                        that.state.allTimeLeaders = data;
+                        that.setState();
+                    }
+                });
+
+
             },
 
             render: function () {
                 return (
                     <div>
-                        FIX ME ONCE SERVICE RETURNS VALUES
-                        {this.state.allTimeLeaders.length > 0 ? this.state.allTimeLeaders.map(renderEntry) : "No data"}
+                        {this.state.allTimeLeaders.length > 0 ? this.state.allTimeLeaders.map(renderGame) : "No data"}
                     </div>
                 );
             }
@@ -105,7 +119,7 @@ define(['react', 'socketio'], function (React, io) {
             },
             render: function () {
                 return (
-                    <div>SUMMARIES
+                    <div>SUMMARIES ALL NEEED CSS VOODOO
                         <div className="summarySection">
                             <div className="summarySectionTitle">Current Round Leaders (temp: really just all)</div>
                         </div>
