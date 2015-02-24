@@ -326,6 +326,10 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr','bootstrap'],
             return 0;
         }
 
+        function moveClick(keyStroke)
+        {
+            alert(keyStroke);
+        }
 
         function keyMove(ev) {
             var y = document.getElementsByClassName('cur1');
@@ -464,6 +468,33 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr','bootstrap'],
             });
             gamePoints = 1000;
             gameLevel = 0;
+
+            $('.leftClickMaze').click(function() {
+                move.left();
+            });
+
+            $('.rightClickMaze').click(function() {
+                move.right();
+            });
+            $('.upClickMaze').click(function() {
+                          move.up();
+           });
+            $('.downClickMaze').click(function() {
+            move.down();
+            });
+
+            var winHeight = window.innerWidth;
+            var winInnerHer = window.innerHeight;
+           // alert(wHeight + ':' + innHer);
+            $('#maze').css('height',function()
+                {
+                    if (winHeight > winInnerHer)
+                    {   return winInnerHer * 0.7;}
+                    else
+                    {   return winHeight * 0.7;}
+
+                }
+            )
             commonFunctions.buildGameTable();
         });
     });
