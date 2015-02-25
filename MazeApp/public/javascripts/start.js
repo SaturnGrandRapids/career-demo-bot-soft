@@ -65,7 +65,6 @@ require(['jquery', 'socketio', 'flipclock', 'hammer', 'modernizr'],
             startGame: function () {
                 var player = gid('playerInfoBox').value;
                 var secret = gid('playerSecretBox').value;
-
                 if (player == "Enter Your Name Here" || player == "" || secret == "Enter Secret Word Here" || secret ==  "") {
                     alert("Enter your name and secret word before starting");
                     return;
@@ -78,7 +77,6 @@ require(['jquery', 'socketio', 'flipclock', 'hammer', 'modernizr'],
                             alert('Something went wrong...');
                             return;
                         }
-
                         if (msg.IsNew) {
                             //call add user message and move on
                             socket.emit('addUser', player, secret, function (err, msg) {
