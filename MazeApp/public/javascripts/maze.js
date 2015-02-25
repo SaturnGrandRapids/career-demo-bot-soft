@@ -481,22 +481,27 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr','bootstrap'],
             gamePoints = 1000;
             gameLevel = 0;
 
-            $('.leftClickMaze').click(function() {
+            $('.leftClickMaze').click(function(evt) {
+                evt.preventDefault();
                 sendToSocket();
                 move.left();
             });
 
-            $('.rightClickMaze').click(function() {
+            $('.rightClickMaze').click(function(evt) {
+                evt.preventDefault();
                 sendToSocket();
                 move.right();
             });
-            $('.upClickMaze').click(function() {
-                        sendToSocket();
-                          move.up();
+            $('.upClickMaze').click(function(evt) {
+                evt.preventDefault();
+                sendToSocket();
+                move.up();
            });
-            $('.downClickMaze').click(function() {
-            sendToSocket();
-            move.down();
+            $('.downClickMaze').click(function(evt) {
+
+                evt.preventDefault();
+                sendToSocket();
+                move.down();
             });
 
             var winHeight = window.innerWidth;
