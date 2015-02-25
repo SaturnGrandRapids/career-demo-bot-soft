@@ -92,10 +92,8 @@ require(['jquery', 'socketio', 'flipclock', 'hammer', 'modernizr'],
                         }
                         else {
                             if (!msg.IsValid) {
-                                //We no longer have a problem if someone is rejoining , so let's rock!!!
-                                //TODO: could add a welcome back your previous high score is xxx if same user / secret
                                 alert('Oops, Player: "' + player + '" is already taken & the Secret Word does not match!');
-                                sessionStorage.setItem('user', "ErrorUser");
+                                sessionStorage.setItem('user', null);
                             }
                             else{
 //                                alert('Welcome Back ' + player);
