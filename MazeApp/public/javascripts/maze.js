@@ -204,7 +204,15 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr','bootstrap'],
             }
         };
 
+        function sendToSocket()
+        {
 
+             currentGame.points = gamePoints;
+             currentGame.moves = gameMoves;
+             currentGame.mazeHtml = gid('maze').outerHTML;
+             socket.emit('game:update', currentGame);
+            return false;
+        }
         function next(elem) {
             do {
                 elem = elem.nextSibling;
@@ -385,16 +393,21 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr','bootstrap'],
 
             switch (ev.type) {
                 case "swipeleft":
+                    sendToSocket();
                     move.left();
                     return true;
 
                 case "swipeup":
+                    sendToSocket();
                     move.up();
+
                     return false;
                 case "swiperight":
+                    sendToSocket();
                     move.right();
                     return false;
                 case "swipedown":
+                    sendToSocket();
                     move.down();
                     return false;
                 default:
@@ -470,16 +483,20 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr','bootstrap'],
             gameLevel = 0;
 
             $('.leftClickMaze').click(function() {
+                sendToSocket();
                 move.left();
             });
 
             $('.rightClickMaze').click(function() {
+                sendToSocket();
                 move.right();
             });
             $('.upClickMaze').click(function() {
+                        sendToSocket();
                           move.up();
            });
             $('.downClickMaze').click(function() {
+            sendToSocket();
             move.down();
             });
 
