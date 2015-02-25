@@ -187,6 +187,33 @@ function gameService() {
         }
     };
 
+    /**
+     * Gets the winners from previous rounds                             DOESN'T WORK YET...
+     * @param take - optional - how many winners/round
+     * @param rounds - optional - how many previous rounds to check
+     * @param callback
+     */
+    //var getWinners = function (take, rounds, callback) {
+    //    var winners = [];
+    //    var currentRound = 5; //Hardcode while debuggign loop
+    //
+    //    //getCurrentRound(function (err, data) {
+    //    //    if(err == null) currentRound = data;
+    //    //});
+    //
+    //    //set defaults
+    //    if (take == null || typeof take !== 'number') take = 3;
+    //    if (rounds == null || typeof rounds !== 'number') rounds = 2;
+    //
+    //    for(var i = currentRound - rounds; i < currentRound; i++) {
+    //        getRoundLeaders(take, i, function (err, data) {
+    //            if (err == null) winners = winners.concat(data);
+    //            else alert(err);
+    //        });
+    //    }
+    //    callback(null, winners); //throwing away errors at the moment. not terribly bright...
+    //};
+
 
     /**
      * Gets all of the games from this runtime
@@ -212,6 +239,7 @@ function gameService() {
         GetCurrentRunningGames: getCurrentRunningGames,
         GetAllGames: getAllGames,
         GetOverallLeaders: getOverallLeaders,
+       // GetWinners: getWinners,
         Prune: prune
     }
 }

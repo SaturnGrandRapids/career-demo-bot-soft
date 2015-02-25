@@ -110,6 +110,10 @@ var sockets = function(server){
             gameService.GetOverallLeaders(msg.take, callback)
         });
 
+        //socket.on('game:getWinners', function(msg, callback) {
+        //    gameService.GetWinners(msg.take, msg.rounds, callback)
+        //});
+
         socket.on('checkUser', function(name, secret, callback){
             userService.isUserValid(name, secret, callback);
         });
