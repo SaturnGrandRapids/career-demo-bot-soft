@@ -181,7 +181,7 @@ define(['react', 'socketio'], function (React, io) {
             render: function () {
                 return(
                   <div>
-                      <div className="summarySectionTitle">Previous Round Winners (IN PROGRESS)</div>
+                      <div className="summarySectionTitle">Previous Round Winners</div>
                       {this.state.lastRoundWinners.length > 0 ? this.state.lastRoundWinners.map(renderGame) : "No data"}
                       <br/>
                       <br/>
