@@ -62,7 +62,7 @@ var sockets = function(server){
         });
 
         /**
-         * Awards the prize to a particlar user
+         * Awards the prize to a particular user
          */
         socket.on('game:awardPrize', function(msg, callback){
             gameService.AwardPrize(msg,function(err, data){
@@ -109,6 +109,10 @@ var sockets = function(server){
         socket.on('game:getOverallLeaders', function(msg, callback) {
             gameService.GetOverallLeaders(msg.take, callback)
         });
+
+        //socket.on('game:getWinners', function(msg, callback) {
+        //    gameService.GetWinners(msg.take, msg.rounds, callback)
+        //});
 
         socket.on('checkUser', function(name, secret, callback){
             userService.isUserValid(name, secret, callback);

@@ -465,7 +465,6 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr','bootstrap'],
             if (sessionStorage.getItem('user')==null) {
                 alert('Sorry you need to log in');
                 window.location.href = '/';
-
             }
             var curUser = JSON.parse(sessionStorage.getItem('user'));
             document.getElementById("playerInfoBox").innerHTML = "<br><b>Now Playing:</b>    " + curUser.name ;

@@ -133,7 +133,7 @@ define(['react', 'socketio'], function (React, io) {
             render: function () {
                 return (
                     <div>
-                        <div className="summarySectionTitle">Current Round Leaders (IN PROGRESS)</div>
+                        <div className="summarySectionTitle">Current Round Leaders</div>
                         {this.state.roundLeaders.length > 0 ? this.state.roundLeaders.map(renderGame) : "No data"}
                     </div>
                 );
@@ -142,9 +142,58 @@ define(['react', 'socketio'], function (React, io) {
 
         });
 
+
+        var PreviousWinnersView = React.createClass({
+            getInitialState: function () {
+                that = this;
+                //need listeners
+                return {lastRoundWinners: [], olderRoundWinners: [], currentRound: 0}
+            },
+
+            componentDidMount: function() {
+                var that = this;
+               that.updateModel();
+            },
+
+            updateModel: function() {
+                var that = this;
+                socket.emit('round:getCurrent', {}, function (err, data) {
+                        if (err == null){
+                            that.setState({currentRound: data});
+                            that.updateModel();
+                        }
+                });
+
+                socket.emit('round:getLeaders', {take: 3, round: that.state.currentRound - 1}, function (err, data) {
+                    if (err == null){
+                        that.state.lastRoundWinners = data;
+                        that.setState();
+                    }
+                });
+
+                socket.emit('round:getLeaders', {take: 3, round: that.state.currentRound - 2}, function (err, data) {
+                    if (err == null){
+                        that.state.olderRoundWinners = data;
+                        that.setState();
+                    }
+                });
+            },
+            render: function () {
+                return(
+                  <div>
+                      <div className="summarySectionTitle">Previous Round Winners</div>
+                      {this.state.lastRoundWinners.length > 0 ? this.state.lastRoundWinners.map(renderGame) : "No data"}
+                      <br/>
+                      <br/>
+                      {this.state.olderRoundWinners.length > 0 ? this.state.olderRoundWinners.map(renderGame) : "No data"}
+
+                  </div>
+                );
+            }
+        })
+
         var SummaryView = React.createClass({
             getInitialState: function () {
-                var that = this;
 
                 return {currentRound: 1, roundLeaders: [], allTimeLeaders: []};
             },
@@ -155,7 +204,7 @@ define(['react', 'socketio'], function (React, io) {
                             <RoundLeaderView/>
                         </div>
                         <div className="summarySection">
-                            <div className="summarySectionTitle">Previous Round Winners (temp: really just all)</div>
+                            <PreviousWinnersView/>
                         </div>
                         <div className="summarySection">
                             <LeaderBoardView/>

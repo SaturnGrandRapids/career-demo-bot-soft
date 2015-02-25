@@ -32,10 +32,10 @@ var userService = function () {
             }
             else {  //Username found
                 if(data.secret === secret){
-                    callback(err, {IsNew: false, IsValid: false});
+                    callback(err, {IsNew: false, IsValid: true});
                 }
                 else{
-                    callback(err, {IsNew: false, IsValid: true});
+                    callback(err, {IsNew: false, IsValid: false});
                 }
             }
         });

@@ -65,7 +65,6 @@ require(['jquery', 'socketio', 'flipclock', 'hammer', 'modernizr'],
             startGame: function () {
                 var player = gid('playerInfoBox').value;
                 var secret = gid('playerSecretBox').value;
-
                 if (player == "Enter Your Name Here" || player == "" || secret == "Enter Secret Word Here" || secret ==  "") {
                     alert("Enter your name and secret word before starting");
                     return;
@@ -78,7 +77,6 @@ require(['jquery', 'socketio', 'flipclock', 'hammer', 'modernizr'],
                             alert('Something went wrong...');
                             return;
                         }
-
                         if (msg.IsNew) {
                             //call add user message and move on
                             socket.emit('addUser', player, secret, function (err, msg) {
@@ -94,10 +92,8 @@ require(['jquery', 'socketio', 'flipclock', 'hammer', 'modernizr'],
                         }
                         else {
                             if (!msg.IsValid) {
-                                //We no longer have a problem if someone is rejoining , so let's rock!!!
-                                //TODO: could add a welcome back your previous high score is xxx if same user / secret
                                 alert('Oops, Player: "' + player + '" is already taken & the Secret Word does not match!');
-                                sessionStorage.setItem('user', "ErrorUser");
+                                sessionStorage.setItem('user', null);
                             }
                             else{
 //                                alert('Welcome Back ' + player);
