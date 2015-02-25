@@ -93,14 +93,22 @@ define(['react', 'socketio'], function (React, io) {
                 });
             },
 
-            render: function () {
-                return (
-                    <div>
-                        <div className="summarySectionTitle">Overall Leaders</div>
-                        {this.state.allTimeLeaders.length > 0 ? this.state.allTimeLeaders.map(renderGame) : "No data"}
-                    </div>
-                );
+            render: function() {
+                var items = this.state.allTimeLeaders.map(function (item, i) {
+                    var style = {  background: i % 2 ? 'lightblue' : null};
+                    return <tr style={style}><td>{item.userName}</td><td>{item.round}</td><td>{item.points}</td></tr>;
+                });
+                return <div ><div className="summarySectionTitle">All Time Round Leaders</div><tr><td>Player</td><td>Round</td><td>Score</td></tr>{items}</div>;
             }
+            
+            //render: function () {
+            //    return (
+            //        <div>
+            //            <div className="summarySectionTitle">Overall Leaders</div>
+            //            {this.state.allTimeLeaders.length > 0 ? this.state.allTimeLeaders.map(renderGame) : "No data"}
+            //        </div>
+            //    );
+            //}
         });
 
         var RoundLeaderView = React.createClass({
@@ -130,14 +138,23 @@ define(['react', 'socketio'], function (React, io) {
                 });
             },
 
-            render: function () {
-                return (
-                    <div>
-                        <div className="summarySectionTitle">Current Round Leaders</div>
-                        {this.state.roundLeaders.length > 0 ? this.state.roundLeaders.map(renderGame) : "No data"}
-                    </div>
-                );
+            render: function() {
+                var items = this.state.roundLeaders.map(function (item, i) {
+                    var style = {background: i % 2 ? 'lightblue' : null};
+                    return <tr style={style}><td>{item.userName}</td><td>{item.round}</td><td>{item.points}</td></tr>;
+                });
+                return <div><div className="summarySectionTitle">Current Round Leaders</div><tr><td>Player</td><td>Round</td><td>Score</td></tr>{items}</div>;
             }
+            
+            
+            //render: function () {
+            //    return (
+            //        <div>
+            //            <div className="summarySectionTitle">Current Round Leaders</div>
+            //            {this.state.roundLeaders.length > 0 ? this.state.roundLeaders.map(renderGame) : "No data"}
+            //        </div>
+            //    );
+            //}
 
 
         });
@@ -199,7 +216,7 @@ define(['react', 'socketio'], function (React, io) {
             },
             render: function () {
                 return (
-                    <div>SUMMARIES ALL NEEED CSS VOODOO
+                    <div>
                         <div className="summarySection">
                             <RoundLeaderView/>
                         </div>

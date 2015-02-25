@@ -65,7 +65,6 @@ td.cur {
 .summarySection{
     /*currently just setup for debugging, needs real styling*/
     border-style:solid;
-    border-color:red;
 }
 
 .summarySectionTitle{
