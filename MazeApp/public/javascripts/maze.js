@@ -204,7 +204,15 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr','bootstrap'],
             }
         };
 
+        function sendToSocket()
+        {
 
+             currentGame.points = gamePoints;
+             currentGame.moves = gameMoves;
+             currentGame.mazeHtml = gid('maze').outerHTML;
+             socket.emit('game:update', currentGame);
+            return false;
+        }
         function next(elem) {
             do {
                 elem = elem.nextSibling;
@@ -385,16 +393,21 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr','bootstrap'],
 
             switch (ev.type) {
                 case "swipeleft":
+                    sendToSocket();
                     move.left();
                     return true;
 
                 case "swipeup":
+                    sendToSocket();
                     move.up();
+
                     return false;
                 case "swiperight":
+                    sendToSocket();
                     move.right();
                     return false;
                 case "swipedown":
+                    sendToSocket();
                     move.down();
                     return false;
                 default:
@@ -468,18 +481,27 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr','bootstrap'],
             gamePoints = 1000;
             gameLevel = 0;
 
-            $('.leftClickMaze').click(function() {
+            $('.leftClickMaze').click(function(evt) {
+                evt.preventDefault();
+                sendToSocket();
                 move.left();
             });
 
-            $('.rightClickMaze').click(function() {
+            $('.rightClickMaze').click(function(evt) {
+                evt.preventDefault();
+                sendToSocket();
                 move.right();
             });
-            $('.upClickMaze').click(function() {
-                          move.up();
+            $('.upClickMaze').click(function(evt) {
+                evt.preventDefault();
+                sendToSocket();
+                move.up();
            });
-            $('.downClickMaze').click(function() {
-            move.down();
+            $('.downClickMaze').click(function(evt) {
+
+                evt.preventDefault();
+                sendToSocket();
+                move.down();
             });
 
             var winHeight = window.innerWidth;
