@@ -218,6 +218,10 @@ td.cur {
     background: red;
 }
 
+body {
+    font-size: medium;
+}
+
 .cur1 {
     background-color: coral;
 

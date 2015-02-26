@@ -44,7 +44,7 @@ define(['react', 'socketio'], function (React, io) {
                         <div className='col-1-3' >
                             <div className='grid'>
                                 <div className='col-1-3'>{game.userName}</div>
-                                <div className='col-1-3'>Round {game.round}</div>
+                                <div className='col-1-3'>Points: {game.points}</div>
                             </div>
 
                             <div dangerouslySetInnerHTML={{__html: game.mazeHtml}} className='col-2-3' ></div>
