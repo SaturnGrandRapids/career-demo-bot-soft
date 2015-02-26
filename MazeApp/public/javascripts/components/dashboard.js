@@ -96,9 +96,17 @@ define(['react', 'socketio'], function (React, io) {
             render: function() {
                 var items = this.state.allTimeLeaders.map(function (item, i) {
                     var style = {  background: i % 2 ? 'lightblue' : null};
-                    return <tr style={style}><td>{item.userName}</td><td>{item.round}</td><td>{item.points}</td></tr>;
+                    return <tr style={style}><td id="td-2">{item.userName}</td><td id="td-2">{item.round}</td><td id="td-2">{item.points}</td></tr>;
                 });
-                return <div ><div className="summarySectionTitle">All Time Round Leaders</div><tr><td>Player</td><td>Round</td><td>Score</td></tr>{items}</div>;
+                return (
+                <div >
+                    <div className="summarySectionTitle">All Time Leaders</div>
+                    <table id="table-2">
+                        <thead><th>Player</th><th>Round</th><th>Score</th></thead>
+                        {items}
+                    </table>
+                </div>
+                );
             }
             
             //render: function () {
@@ -141,9 +149,15 @@ define(['react', 'socketio'], function (React, io) {
             render: function() {
                 var items = this.state.roundLeaders.map(function (item, i) {
                     var style = {background: i % 2 ? 'lightblue' : null};
-                    return <tr style={style}><td>{item.userName}</td><td>{item.round}</td><td>{item.points}</td></tr>;
+                    return <tr style={style}><td id="td-2">{item.userName}</td><td id="td-2">{item.round}</td><td id="td-2">{item.points}</td></tr>;
                 });
-                return <div><div className="summarySectionTitle">Current Round Leaders</div><tr><td>Player</td><td>Round</td><td>Score</td></tr>{items}</div>;
+                return <div className="summaryTable">
+                    <div className="summarySectionTitle">Current Round Leaders</div>
+                    <table id="table-2">
+                    <thead><tr><th>Player</th><th> Round</th><th> Score</th></tr></thead>
+                {items}
+                </table>
+                </div>
             }
             
             
@@ -196,17 +210,38 @@ define(['react', 'socketio'], function (React, io) {
                 });
             },
             render: function () {
-                return(
-                  <div>
-                      <div className="summarySectionTitle">Previous Round Winners</div>
-                      {this.state.lastRoundWinners.length > 0 ? this.state.lastRoundWinners.map(renderGame) : "No data"}
-                      <br/>
-                      <br/>
-                      {this.state.olderRoundWinners.length > 0 ? this.state.olderRoundWinners.map(renderGame) : "No data"}
-
-                  </div>
+                var items = this.state.lastRoundWinners.concat(this.state.olderRoundWinners).map(function (item, i) {
+                    var style = {background: i % 2 ? 'lightblue' : null};
+                    return <tr style={style}><td id="td-2">{item.userName}</td><td id="td-2">{item.round}</td><td id="td-2">{item.points}</td><td id="td-2">{item.prizeAwarded.toString()}</td></tr>;
+                });
+                var headers = this.state.lastRoundWinners.map(function (item, i) {
+                    return ;
+                });
+                //var headers = ["Player", "Round", "Prize Awarded"];
+                var newitems =  items.concat(headers);
+  //              return <div>{headers}</div>;
+                return (
+                    
+                    <div > <div className="summarySectionTitle">Previous Round Winners</div>
+                        <table id="table-2">
+                        <thead ><th>Player</th><th>Round</th><th>Score</th><th>Prize Awarded</th></thead>
+                        {items}
+                   </table>
+                    </div>
                 );
             }
+            //render: function () {
+            //    return(
+            //        <div>
+            //            <div className="summarySectionTitle">Previous Round Winners</div>
+            //          {this.state.lastRoundWinners.concat(olderRoundWinners).length > 0 ? this.state.lastRoundWinners.concat(olderRoundWinners).map(renderGame) : "No data"}
+            //            <br/>
+            //            <br/>
+            //          {this.state.olderRoundWinners.length > 0 ? this.state.olderRoundWinners.map(renderGame) : "No data"}
+            //
+            //        </div>
+            //    );
+            //}
         })
 
         var SummaryView = React.createClass({

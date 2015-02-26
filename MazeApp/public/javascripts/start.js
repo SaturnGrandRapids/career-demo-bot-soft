@@ -174,7 +174,7 @@ require(['jquery', 'socketio', 'flipclock', 'hammer', 'modernizr'],
             });
             $('input').bind('keypress',function (event){
                 if (event.keyCode === 13){
-                    window.location.href = '/maze';
+                    commonFunctions.startGame();
                 }
             });
 
