@@ -176,8 +176,14 @@ define(['react', 'socketio'], function (React, io) {
 
         var PreviousWinnersView = React.createClass({
             getInitialState: function () {
-                that = this;
+                var that = this;
                 //need listeners
+                socket.on('game:over', function () {
+                    that.updateModel();
+                });
+                socket.on('round:increment', function () {
+                    that.updateModel();
+                });
                 return {lastRoundWinners: [], olderRoundWinners: [], currentRound: 0}
             },
 
