@@ -53,7 +53,7 @@
                        </div>
                        <div type="text" id="playerInfoBox" name="playerName" class="playerNameClass"
                             maxlength="20">
-                           xxx
+                           
                        </div>
 
                        <div class="flip-clock-meridium hidden-sm hidden-md hidden-xs" align=left>Points:</div>

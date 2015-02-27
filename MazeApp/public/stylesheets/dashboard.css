@@ -73,6 +73,10 @@ td.cur {
     background: darkcyan;
 }
 
+body {
+    font-size: medium;
+}
+
 .summarySection{
     align-content: center;
     padding-top: 25px;
