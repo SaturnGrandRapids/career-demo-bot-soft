@@ -44,7 +44,7 @@ define(['react', 'socketio'], function (React, io) {
                         <div className='col-1-3' >
                             <div className='grid'>
                                 <div className='col-1-3'>{game.userName}</div>
-                                <div className='col-1-3'>Round {game.round}</div>
+                                <div className='col-1-3'>Points: {game.points}</div>
                             </div>
 
                             <div dangerouslySetInnerHTML={{__html: game.mazeHtml}} className='col-2-3' ></div>
@@ -93,14 +93,30 @@ define(['react', 'socketio'], function (React, io) {
                 });
             },
 
-            render: function () {
+            render: function() {
+                var items = this.state.allTimeLeaders.map(function (item, i) {
+                    var style = {  background: i % 2 ? 'lightblue' : null};
+                    return <tr style={style}><td id="td-2">{item.userName}</td><td id="td-2">{item.round}</td><td id="td-2">{item.points}</td></tr>;
+                });
                 return (
-                    <div>
-                        <div className="summarySectionTitle">Overall Leaders</div>
-                        {this.state.allTimeLeaders.length > 0 ? this.state.allTimeLeaders.map(renderGame) : "No data"}
-                    </div>
+                <div >
+                    <div className="summarySectionTitle">All Time Leaders</div>
+                    <table id="table-2">
+                        <thead><th>Player</th><th>Round</th><th>Score</th></thead>
+                        {items}
+                    </table>
+                </div>
                 );
             }
+            
+            //render: function () {
+            //    return (
+            //        <div>
+            //            <div className="summarySectionTitle">Overall Leaders</div>
+            //            {this.state.allTimeLeaders.length > 0 ? this.state.allTimeLeaders.map(renderGame) : "No data"}
+            //        </div>
+            //    );
+            //}
         });
 
         var RoundLeaderView = React.createClass({
@@ -130,14 +146,29 @@ define(['react', 'socketio'], function (React, io) {
                 });
             },
 
-            render: function () {
-                return (
-                    <div>
-                        <div className="summarySectionTitle">Current Round Leaders</div>
-                        {this.state.roundLeaders.length > 0 ? this.state.roundLeaders.map(renderGame) : "No data"}
-                    </div>
-                );
+            render: function() {
+                var items = this.state.roundLeaders.map(function (item, i) {
+                    var style = {background: i % 2 ? 'lightblue' : null};
+                    return <tr style={style}><td id="td-2">{item.userName}</td><td id="td-2">{item.round}</td><td id="td-2">{item.points}</td></tr>;
+                });
+                return <div className="summaryTable">
+                    <div className="summarySectionTitle">Current Round Leaders</div>
+                    <table id="table-2">
+                    <thead><tr><th>Player</th><th> Round</th><th> Score</th></tr></thead>
+                {items}
+                </table>
+                </div>
             }
+            
+            
+            //render: function () {
+            //    return (
+            //        <div>
+            //            <div className="summarySectionTitle">Current Round Leaders</div>
+            //            {this.state.roundLeaders.length > 0 ? this.state.roundLeaders.map(renderGame) : "No data"}
+            //        </div>
+            //    );
+            //}
 
 
         });
@@ -145,8 +176,14 @@ define(['react', 'socketio'], function (React, io) {
 
         var PreviousWinnersView = React.createClass({
             getInitialState: function () {
-                that = this;
+                var that = this;
                 //need listeners
+                socket.on('game:over', function () {
+                    that.updateModel();
+                });
+                socket.on('round:increment', function () {
+                    that.updateModel();
+                });
                 return {lastRoundWinners: [], olderRoundWinners: [], currentRound: 0}
             },
 
@@ -179,17 +216,38 @@ define(['react', 'socketio'], function (React, io) {
                 });
             },
             render: function () {
-                return(
-                  <div>
-                      <div className="summarySectionTitle">Previous Round Winners</div>
-                      {this.state.lastRoundWinners.length > 0 ? this.state.lastRoundWinners.map(renderGame) : "No data"}
-                      <br/>
-                      <br/>
-                      {this.state.olderRoundWinners.length > 0 ? this.state.olderRoundWinners.map(renderGame) : "No data"}
-
-                  </div>
+                var items = this.state.lastRoundWinners.concat(this.state.olderRoundWinners).map(function (item, i) {
+                    var style = {background: i % 2 ? 'lightblue' : null};
+                    return <tr style={style}><td id="td-2">{item.userName}</td><td id="td-2">{item.round}</td><td id="td-2">{item.points}</td><td id="td-2">{item.prizeAwarded.toString()}</td></tr>;
+                });
+                var headers = this.state.lastRoundWinners.map(function (item, i) {
+                    return ;
+                });
+                //var headers = ["Player", "Round", "Prize Awarded"];
+                var newitems =  items.concat(headers);
+  //              return <div>{headers}</div>;
+                return (
+                    
+                    <div > <div className="summarySectionTitle">Previous Round Winners</div>
+                        <table id="table-2">
+                        <thead ><th>Player</th><th>Round</th><th>Score</th><th>Prize Awarded</th></thead>
+                        {items}
+                   </table>
+                    </div>
                 );
             }
+            //render: function () {
+            //    return(
+            //        <div>
+            //            <div className="summarySectionTitle">Previous Round Winners</div>
+            //          {this.state.lastRoundWinners.concat(olderRoundWinners).length > 0 ? this.state.lastRoundWinners.concat(olderRoundWinners).map(renderGame) : "No data"}
+            //            <br/>
+            //            <br/>
+            //          {this.state.olderRoundWinners.length > 0 ? this.state.olderRoundWinners.map(renderGame) : "No data"}
+            //
+            //        </div>
+            //    );
+            //}
         })
 
         var SummaryView = React.createClass({
@@ -199,7 +257,7 @@ define(['react', 'socketio'], function (React, io) {
             },
             render: function () {
                 return (
-                    <div>SUMMARIES ALL NEEED CSS VOODOO
+                    <div>
                         <div className="summarySection">
                             <RoundLeaderView/>
                         </div>

@@ -544,7 +544,7 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr','bootstrap'],
 
             var winHeight = window.innerWidth;
             var winInnerHer = window.innerHeight;
-           // alert(wHeight + ':' + innHer);
+            //alert(winHeight + ':' + winInnerHer);
             $('#maze').css('height',function()
                 {
                     if (winHeight > winInnerHer)

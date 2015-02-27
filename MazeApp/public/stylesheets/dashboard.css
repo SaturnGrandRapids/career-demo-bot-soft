@@ -9,12 +9,19 @@
 table {
     border-collapse: collapse;
     width: 100%;
-    height: 350px;
+    height: 350px !important;
     white-space: nowrap;
     table-layout: fixed;
     background-color:  black;
 }
 
+table#table-2 {
+    border: 0px solid black;
+    background-color: #ffffff;
+    width: auto;
+    table-layout: auto;
+    height: auto !important;
+}
 .halltable {
     border: 1px solid black;
     background-color:  cornflowerblue;
@@ -28,6 +35,10 @@ td {
     width: 10px;
     height: 5px;
     border: 2px solid white;
+}
+td#td-2 {
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 td.s {
@@ -63,9 +74,16 @@ td.cur {
 }
 
 .summarySection{
+    align-content: center;
+    padding-top: 25px;
+}
+.summarySectionTitle{
+    font-weight: bold;
+}
+.summaryTable{
     /*currently just setup for debugging, needs real styling*/
-    border-style:solid;
-    border-color:red;
+   /* border-style:Ridge;*/
+
 }
 
 .summarySectionTitle{
