@@ -341,39 +341,42 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr','bootstrap'],
 
         function keyMove(ev) {
             var y = document.getElementsByClassName('cur1');
+            console.log("keycode " + ev.keyCode);
 
             if (ev.keyCode > 36 && ev.keyCode < 41) {
                 if (clock.running != true) {
                     return false;
                     //need to press the start button to start
                     //clock.start();
+                    console.log("here");
 
                 }
 
             }
             switch (ev.keyCode) {
-                case 37: /* left */
+                case 37: case 65: /* left */
+                    console.log("init");
                     move.left();
                     currentGame.points = gamePoints;
                     currentGame.moves = gameMoves;
                     currentGame.mazeHtml = gid('maze').outerHTML;
                     socket.emit('game:update', currentGame);
                     return false;
-                case 38: /* up */
+                case 38: case 87: /* up */
                     move.up();
                     currentGame.points = gamePoints;
                     currentGame.moves = gameMoves;
                     currentGame.mazeHtml = gid('maze').outerHTML;
                     socket.emit('game:update', currentGame);
                     return false;
-                case 39: /* right */
+                case 39: case 68: /* right */
                     move.right();
                     currentGame.points = gamePoints;
                     currentGame.moves = gameMoves;
                     currentGame.mazeHtml = gid('maze').outerHTML;
                     socket.emit('game:update', currentGame);
                     return false;
-                case 40: /* down */
+                case 40: case 83: /* down */
                     move.down();
                     currentGame.points = gamePoints;
                     currentGame.moves = gameMoves;
@@ -458,6 +461,8 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr','bootstrap'],
                     displayPoints.setValue(gamePoints);
                 }, 1000);
             });
+  
+            
         }
 
         $(document).ready(function () {
