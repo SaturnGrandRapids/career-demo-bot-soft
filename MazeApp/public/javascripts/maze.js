@@ -505,7 +505,7 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr','bootstrap'],
             gamePoints = 1000;
             gameLevel = 0;
 
-
+/*
             if(IS_IOS){
 
                 $(.leftClickMaze).doubletap();
@@ -516,27 +516,27 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr','bootstrap'],
                 $(.downClickMaze).doubletap();
 
 
-            }
+            }*/
 
                     $('.leftClickMaze').click(function(evt) {
-                        evt.preventDefault();
+               //         evt.preventDefault();
                         sendToSocket();
                         move.left();
                     });
 
                     $('.rightClickMaze').click(function(evt) {
-                        evt.preventDefault();
+                 //       evt.preventDefault();
                         sendToSocket();
                         move.right();
                     });
                     $('.upClickMaze').click(function(evt) {
-                        evt.preventDefault();
+                 //       evt.preventDefault();
                         sendToSocket();
                         move.up();
                    });
                     $('.downClickMaze').click(function(evt) {
 
-                        evt.preventDefault();
+                 //       evt.preventDefault();
                         sendToSocket();
                         move.down();
                     });
