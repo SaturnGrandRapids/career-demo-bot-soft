@@ -24,7 +24,7 @@
            <div class="container" style="height: 100%;">
 
                <div class="row" style="height: 100%;">
-                   <div class="col-sm-12 col-md-12 col-lg-8 col-sm-height">
+                   <div class="col-sm-12 col-md-12 col-lg-8 ">
 
                        <table id='maze'>
                            <tr>
@@ -38,7 +38,7 @@
 
 
 
-                   <div class="col-sm-12 col-md-12 col-lg-4  ">
+                   <div class="col-sm-12 col-md-4 col-lg-4  ">
                        <div class="hidden-lg">
 
                            <img src="../stylesheets/images/arrowleft.png"  class="leftClickMaze img-responsive col-xs-3 col-sm-3 col-md-3">
@@ -57,7 +57,7 @@
                        </div>
 
                        <div class="flip-clock-meridium hidden-sm hidden-md hidden-xs" align=left>Points:</div>
-                       <div class="clockPoints hidden-sm hidden-md hidden-xs"></div>
+                       <div class="clockPoints hidden-sm  hidden-xs"></div>
                        <div class="flip-clock-meridium hidden-md hidden-xs hidden-sm" align=left>Time Left:</div>
                        <div class="clockCountDown hidden-md hidden-xs hidden-sm"></div>
                        </br>

@@ -39,6 +39,25 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr','bootstrap'],
     function($, io, FlipClock,Hammer) {
 
         var socket = io();
+        var IS_IOS = /iphone|ipad/i.test(navigator.userAgent);
+
+        Node.prototype.doubletap = function()
+        {
+             if (IS_IOS)
+                  $(this).bind('touchstart', function preventZoom(e) {
+                    var t2 = e.timeStamp
+                      , t1 = $(this).data('lastTouch') || t2
+                      , dt = t2 - t1
+                      , fingers = e.originalEvent.touches.length;
+                    $(this).data('lastTouch', t2);
+                    if (!dt || dt > 500 || fingers > 1) return; // not double-tap
+
+                    e.preventDefault(); // double tap - prevent the zoom
+                    // also synthesize click events we just swallowed up
+                    $(this).trigger('click').trigger('click');
+                  });
+
+        }
 
         Node.prototype.add = function (tag, cnt, txt) {
             for (var i = 0; i < cnt; i++)
@@ -486,28 +505,47 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr','bootstrap'],
             gamePoints = 1000;
             gameLevel = 0;
 
-            $('.leftClickMaze').click(function(evt) {
-                evt.preventDefault();
-                sendToSocket();
-                move.left();
-            });
 
-            $('.rightClickMaze').click(function(evt) {
-                evt.preventDefault();
-                sendToSocket();
-                move.right();
-            });
-            $('.upClickMaze').click(function(evt) {
-                evt.preventDefault();
-                sendToSocket();
-                move.up();
-           });
-            $('.downClickMaze').click(function(evt) {
+            if(IS_IOS){
 
-                evt.preventDefault();
-                sendToSocket();
-                move.down();
-            });
+                $(.leftClickMaze).doubletap();
+
+                $(.rightClickMaze).doubletap();
+
+                $(.upClickMaze).doubletap();
+                $(.downClickMaze).doubletap();
+
+
+            }
+
+                    $('.leftClickMaze').click(function(evt) {
+                        evt.preventDefault();
+                        sendToSocket();
+                        move.left();
+                    });
+
+                    $('.rightClickMaze').click(function(evt) {
+                        evt.preventDefault();
+                        sendToSocket();
+                        move.right();
+                    });
+                    $('.upClickMaze').click(function(evt) {
+                        evt.preventDefault();
+                        sendToSocket();
+                        move.up();
+                   });
+                    $('.downClickMaze').click(function(evt) {
+
+                        evt.preventDefault();
+                        sendToSocket();
+                        move.down();
+                    });
+
+
+                   // implement double click
+
+
+
 
             var winHeight = window.innerWidth;
             var winInnerHer = window.innerHeight;
