@@ -458,6 +458,7 @@ require(['jquery','socketio','flipclock', 'hammer', 'modernizr','bootstrap'],
                 }
             });
 
+            // change this line to change length of game
             clock = $('.clockCountDown').FlipClock(120, {
                 countdown: true,
                 clockFace: 'MinuteCounter',
